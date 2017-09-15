@@ -1,0 +1,14 @@
+language: csharp
+solution: FluentQuery.sln
+mono: none
+dotnet: 2.0.0
+script:
+  - dotnet restore
+  - dotnet build
+  - dotnet test FluentQuery.Tests.Unit/FluentQuery.Tests.Unit.csproj
+notifications:
+  email:
+    recipients:
+      - gustavo.adolph@gmail.com
+    on_success: always
+    on_failure: always
