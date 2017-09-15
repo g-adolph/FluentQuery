@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentQuery.Core", "FluentQuery.Core\FluentQuery.Core.csproj", "{29329C69-070B-4AF1-A990-3AD232B82956}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentQuery.Tests.Unit", "FluentQuery.Test.Unit\FluentQuery.Tests.Unit.csproj", "{B143B4D3-5B53-4944-8AD5-4DAA364E2D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentQuery.Tests.Unit", "FluentQuery.Tests.Unit\FluentQuery.Tests.Unit.csproj", "{B143B4D3-5B53-4944-8AD5-4DAA364E2D48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ACE3CC87-C358-46DD-9616-BC17BDBB92CA}"
 	ProjectSection(SolutionItems) = preProject
