@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FluentQuery.Test.Unit.Entities
+namespace FluentQuery.Tests.Unit.Entities
 {
     [Table(name:"Users")]
     public class AnnotationUser

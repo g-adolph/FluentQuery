@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using FluentQuery.Test.Unit.Entities;
+using FluentQuery.Tests.Unit.Entities;
 using Xunit;
 
-namespace FluentQuery.Test.Unit.Statements.Select
+namespace FluentQuery.Tests.Unit.Statements.Select
 {
     [Collection("FluentQuery::Statement::Select::MethodTests")]
     public class FluentQuerySelectStatementWithTableTypeTests

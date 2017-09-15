@@ -2,7 +2,7 @@
 using FluentQuery.Core.Commands.From;
 using Xunit;
 
-namespace FluentQuery.Test.Unit.Statements.From
+namespace FluentQuery.Tests.Unit.Statements.From
 {
     [Collection("FluentQuery::Statement::From::MethodTests")]
     public class FluentQueryFromStatementWithoutTableTypeTests

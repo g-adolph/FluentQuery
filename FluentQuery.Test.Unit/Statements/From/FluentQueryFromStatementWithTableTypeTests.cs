@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
+using FluentQuery.Tests.Unit.Entities;
 using Xunit;
-using FluentQuery.Test.Unit.Entities;
 
-namespace FluentQuery.Test.Unit.Statements.From
+namespace FluentQuery.Tests.Unit.Statements.From
 {
     [Collection("FluentQuery::Statement::From::MethodTests")]
     public class FluentQueryFromStatementWithTableTypeTests
