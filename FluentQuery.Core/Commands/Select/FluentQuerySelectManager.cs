@@ -13,7 +13,12 @@ namespace FluentQuery.Core.Commands.Select
         {
             _selectItems.Add(model);
         }
-
+        
+        public void AddRange(IEnumerable<IFluentQuerySelectItem> model)
+        {
+            _selectItems.AddRange(model);
+        }
+        
         public void EnableAllFields()
         {
             _enableAllFields = !_enableAllFields;

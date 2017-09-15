@@ -4,6 +4,7 @@ namespace FluentQuery.Core.Commands.From
 {
     public class FluentQueryFromItem : IFluentQueryFromItem
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Alias { get; set; }
         public string Schema { get; set; }
