@@ -55,8 +55,8 @@ this process again until the changes are merged in.
 The continuous integration system will automatically perform the required builds and run all tests for pull requests. Builds and test runs must be clean.
 If the continuous integration build fails for any reason, the pull request issue will be updated with a link that can be used to determine the cause of the failure.
 
-[1]: mailto:{gustavo.adolph@gmail.com}
-[2]: https://github.com/g-adolph/{FluentQuery/issues/new
-[3]: https://github.com/g-adolph/{FluentQuery/compare
-[4]: https://github.com/g-adolph/{FluentQuery/pulls
+[1]: mailto:gustavo.adolph@gmail.com
+[2]: https://github.com/g-adolph/FluentQuery/issues/new
+[3]: https://github.com/g-adolph/FluentQuery/compare
+[4]: https://github.com/g-adolph/FluentQuery/pulls
 [6]: https://github.com/g-adolph
