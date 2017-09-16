@@ -16,7 +16,7 @@ Read through these guidelines before you get started:
 ### Questions & Concerns
 
 If you have any questions about using or developing for this project, create a issue and add question label or reach out
-to @g-adolph or send an [email][1].
+to [@g-adolph][6] or send an [email][1].
 
 ### Issues & Bugs
 
@@ -59,3 +59,4 @@ If the continuous integration build fails for any reason, the pull request issue
 [2]: https://github.com/g-adolph/{FluentQuery/issues/new
 [3]: https://github.com/g-adolph/{FluentQuery/compare
 [4]: https://github.com/g-adolph/{FluentQuery/pulls
+[6]: https://github.com/g-adolph
