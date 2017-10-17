@@ -15,9 +15,19 @@ build_script:
 test: off
 deploy:
   provider: environment
+  mame: deploy-x86
   artifact: ./artifacts*.*
   on:
     branch: master
+    platform: x86
+    configuration: release
+  provider: environment
+  mame: deploy-x64
+  artifact: ./artifacts*.*
+  on:
+    branch: master
+    platform: x64
+    configuration: release
 notifications:
 - provider: Email
   to:
