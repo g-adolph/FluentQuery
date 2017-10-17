@@ -1,9 +1,0 @@
-C:\Projetos\FluentQuery\FluentQuery.Core\bin\Debug\netstandard2.0\FluentQuery.Core.deps.json
-C:\Projetos\FluentQuery\FluentQuery.Core\bin\Debug\netstandard2.0\FluentQuery.Core.dll
-C:\Projetos\FluentQuery\FluentQuery.Core\bin\Debug\netstandard2.0\FluentQuery.Core.pdb
-C:\Projetos\FluentQuery\FluentQuery.Core\obj\Debug\netstandard2.0\FluentQuery.Core.csprojResolveAssemblyReference.cache
-C:\Projetos\FluentQuery\FluentQuery.Core\obj\Debug\netstandard2.0\FluentQuery.Core.csproj.CoreCompileInputs.cache
-C:\Projetos\FluentQuery\FluentQuery.Core\obj\Debug\netstandard2.0\FluentQuery.Core.AssemblyInfoInputs.cache
-C:\Projetos\FluentQuery\FluentQuery.Core\obj\Debug\netstandard2.0\FluentQuery.Core.AssemblyInfo.cs
-C:\Projetos\FluentQuery\FluentQuery.Core\obj\Debug\netstandard2.0\FluentQuery.Core.dll
-C:\Projetos\FluentQuery\FluentQuery.Core\obj\Debug\netstandard2.0\FluentQuery.Core.pdb
