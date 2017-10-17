@@ -63,10 +63,7 @@ Task("Coverage")
 
     OpenCover(t => t.DotNetCoreTest(testProject, testSettings), new FilePath("./coverage.xml"), settings);
 
-    Codecov(new CodecovSettings(){
-		Files = new[] { "coverage.xml" },
-		Verbose = true
-	});
+    Codecov("coverage.xml");
 });
 
 Task("NugetPack")

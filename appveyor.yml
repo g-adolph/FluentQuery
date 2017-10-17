@@ -14,7 +14,7 @@ build_script:
     .\build.ps1 -Target CiBuild --settings_skipverification=true
 test: off
 deploy:
-  provider: environment
+  provider: WebDeploy
   mame: release
   artifact: ./artifacts*.*
   on:
