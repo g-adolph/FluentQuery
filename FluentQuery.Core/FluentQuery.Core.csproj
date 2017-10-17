@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\Insert\" />
+    <Folder Include="Commands\Delete\" />
     <Folder Include="Filters\" />
-    <Folder Include="Join\" />
     <Folder Include="Operators\" />
   </ItemGroup>
 

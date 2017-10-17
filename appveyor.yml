@@ -1,0 +1,26 @@
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+branches:
+  only:
+  - master
+image: Visual Studio 2017
+environment:
+  CODECOV_TOKEN-uuid: 09262c97-8841-4e52-a22c-2ba7a3e17e41
+nuget:
+  disable_publish_on_pr: true
+build_script:
+- ps: >-
+    .\Cake\build.ps1 -Target CiBuild
+test: off
+deploy:
+  artifact: ./artifacts*.*
+  on:
+    branch: master
+notifications:
+- provider: Email
+  to:
+  - gustavo.adolph@gmail.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: false

@@ -4,32 +4,22 @@ namespace FluentQuery.Core.Conventions
 {
     public class FluentQueryConventionsManager
     {
-        private readonly List<IFluentQueryConventions> Conventions;
+        private readonly List<IFluentQueryConventions> _conventions;
 
-        public FluentQueryConventionsManager()
-        {
-            Conventions = new List<IFluentQueryConventions>();
-        }
+        public FluentQueryConventionsManager() => _conventions = new List<IFluentQueryConventions>();
 
 
         public void Add(IFluentQueryConventions convention)
         {
-            if (Conventions.Exists(m => m.Equals(convention)))
+            if (_conventions.Exists(m => m.Equals(convention)))
             {
-                Conventions.Add(convention);
+                _conventions.Add(convention);
             }
         }
 
 
-        public bool Remove(IFluentQueryConventions convention)
-        {
-            return Conventions.Remove(convention);
-        }
+        public bool Remove(IFluentQueryConventions convention) => _conventions.Remove(convention);
 
-        public IFluentQueryConventions Change(IFluentQueryConventions oldConvention, IFluentQueryConventions newConvention)
-        {
-            return newConvention;
-        }
-
+        public IFluentQueryConventions Change(IFluentQueryConventions oldConvention, IFluentQueryConventions newConvention) => newConvention;
     }
 }

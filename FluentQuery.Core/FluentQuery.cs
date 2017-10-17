@@ -1,23 +1,13 @@
-﻿using FluentQuery.Core.Builder;
-using FluentQuery.Core.Configurations;
+﻿using FluentQuery.Core.Configurations;
 
 // ReSharper disable once CheckNamespace
 namespace FluentQuery
 {
-    public static class FluentQuery
+    public static partial class FluentQuery
     {
-        public static IFluentQueryConfiguration Configurations { get; } = new FluentQueryConfiguration();
-
-        public static IFluentQueryBuilder Create()
+        public static IFluentQueryConfigurationBuilder Configurations()
         {
-            return new FluentQueryBuilder();
+            return new FluentQueryConfigurationBuilder();
         }
-
-        public static IFluentQueryBuilder<TDataFilter> Create<TDataFilter>()
-        {
-            return new FluentQueryBuilder<TDataFilter>();
-        }
-
-
     }
 }

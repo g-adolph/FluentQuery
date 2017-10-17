@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using FluentQuery.Core.Commands.Select;
 using FluentQuery.Core.Intrastructure.Reflection;
 
 namespace FluentQuery.Core.Intrastructure.Expression
 {
-    public class ExpressionResult
+    public static class ExpressionResult
     {
         public static IFluentQuerySelectItem ResolveSelect<TTable, TColumn>(
             Expression<Func<TTable, TColumn>> expression)

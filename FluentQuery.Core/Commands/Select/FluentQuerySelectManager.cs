@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using FluentQuery.Core.Commands.From;
+using FluentQuery.Core.Dialects.Base;
+using FluentQuery.Core.Intrastructure;
 
 namespace FluentQuery.Core.Commands.Select
 {
@@ -29,7 +30,7 @@ namespace FluentQuery.Core.Commands.Select
             _selectItems.Remove(model);
         }
 
-        public StringBuilder Build()
+        public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {
             var selectBuilder = new StringBuilder();
 
@@ -45,7 +46,7 @@ namespace FluentQuery.Core.Commands.Select
 
             foreach (var item in _selectItems)
             {
-                var itemStatement = BuildFromItem(item);
+                var itemStatement = commandsCreator.BuildColumnItemInSelect(item);
                 if (itemStatement != string.Empty)
                 {
                     selectBuilder.Append(itemStatement + ",");
@@ -60,20 +61,6 @@ namespace FluentQuery.Core.Commands.Select
             return selectBuilder;
         }
 
-        private static string BuildFromItem(IFluentQuerySelectItem item)
-        {
-            var itemStatement = string.Empty;
-            if (item == null) return itemStatement;
-
-            var tableAlias = string.IsNullOrEmpty(item.TableAlias) ? string.Empty : $"[\"{item.TableAlias}\"]";
-
-            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : $"[\"{item.Alias}\"]";
-
-            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"[\"{item.Name}\"]";
-
-            itemStatement = $"{tableAlias}{(!string.IsNullOrEmpty(tableAlias) ? "." : "")}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : "")}";
-
-            return itemStatement;
-        }
+        
     }
 }

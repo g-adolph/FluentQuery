@@ -1,6 +1,6 @@
 ﻿namespace FluentQuery.Core.Models
 {
-    public class FluentQueryWhereModel : IFluentQueryWhereModel
+    public class FluentQueryWhereItem : IFluentQueryWhereItem
     {
     }
 }

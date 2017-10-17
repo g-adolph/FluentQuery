@@ -23,77 +23,53 @@ namespace FluentQuery.Core.Intrastructure.Reflection
             }
 
             typeModel = tableType.CreateTable();
-            
+
             tableType.GetProperties().AddColumns(typeModel);
 
             CacheReflectionTypes.TryAdd(tableType, typeModel);
 
-            return  typeModel;
+            return typeModel;
         }
 
 
-        
-        internal static void AddColumns(this PropertyInfo[] properties, ReflectionTableTypeModel typeModel)
+        private static void AddColumns(this PropertyInfo[] properties, ReflectionTableTypeModel typeModel)
         {
             if (properties == null || properties.Length == 0) return;
             typeModel.Columns = new List<ReflectionColumnTypeModel>();
 
             foreach (var property in properties)
             {
-                typeModel.Columns.Add(property.ConvertPropertyToReflectionColumn());
+                typeModel.Columns.Add(property.ConvertPropertyToReflectionColumn(typeModel.TableFromItem.Name));
             }
         }
 
-        internal static ReflectionColumnTypeModel ConvertPropertyToReflectionColumn(this PropertyInfo property)
+        private static ReflectionColumnTypeModel ConvertPropertyToReflectionColumn(this PropertyInfo property, string tableName)
         {
-            var columnTypeModel = new ReflectionColumnTypeModel();
-            //todo: use conventions to change name,alias,tableAlias;
-            var name = property.Name;
-            //todo: Create DataAnnotation and parameter to set this;
-            //var alias = string.Empty;
-            //var tableAlias = string.Empty;
-
-            //todo: Add this info in selectItemModel
-            //var isKey = member.IsKey();
-
             var columnAttribute = property.GetSingleAttributeOfMemberOrDeclaringTypeOrNull<ColumnAttribute>();
+            var columnName = columnAttribute?.Name ?? property.Name;
+            var columnTypeModel = new ReflectionColumnTypeModel(property.Name, columnName, tableName, new List<Attribute> { columnAttribute });
+            //todo: use conventions to change name,alias,tableAlias;
+            //todo: Create DataAnnotation and parameter to set this;
+            //todo: Add isKey info in selectItemModel
 
-            columnTypeModel.CustomAttributes = new List<Attribute> {columnAttribute};
-
-            columnTypeModel.ColumnSelectItem = new FluentQuerySelectItem
-            {
-                Id = name,
-                Name = columnAttribute?.Name ?? name
-            };
-            
-            
             return columnTypeModel;
-
         }
 
         #region  From Reflection
 
-        internal static ReflectionTableTypeModel CreateTable(this Type type)
+        private static ReflectionTableTypeModel CreateTable(this MemberInfo type)
         {
-            var tableTypeModel = new ReflectionTableTypeModel();
             var tableName = type.Name;
-            var fromModel = new FluentQueryFromItem { Id = tableName, Name = tableName };
-
             var tableAttribute = type.GetSingleAttributeOfMemberOrDeclaringTypeOrNull<TableAttribute>();
+            var tableTypeModel =
+                new ReflectionTableTypeModel(tableName, tableName, new List<Attribute> { tableAttribute });
 
-            tableTypeModel.CustomAttributes = new List<Attribute> { tableAttribute };
+            if (tableAttribute == null) return tableTypeModel;
 
-            if (tableAttribute != null)
-            {
-                fromModel.Name = tableAttribute.Name ?? fromModel.Name;
-                fromModel.Schema = tableAttribute.Schema ?? fromModel.Schema;
-            }
-            
-            tableTypeModel.TableFromItem = fromModel;
+            tableTypeModel.TableFromItem.Name = tableAttribute.Name ?? tableTypeModel.TableFromItem.Name;
+            tableTypeModel.TableFromItem.Schema = tableAttribute.Schema ?? tableTypeModel.TableFromItem.Schema;
 
             return tableTypeModel;
-
-
 
         }
 
@@ -118,7 +94,7 @@ namespace FluentQuery.Core.Intrastructure.Reflection
                 object attributeAux;
                 if (memberInfo.IsDefined(attribute, true))
                 {
-                    attributeAux =  memberInfo.GetCustomAttributes(attribute, true).First();
+                    attributeAux = memberInfo.GetCustomAttributes(attribute, true).First();
                     if (attributeAux != null)
                     {
                         attributeList.Add(attributeAux);
@@ -127,7 +103,7 @@ namespace FluentQuery.Core.Intrastructure.Reflection
                 //Get attribute from class
                 else if (memberInfo.DeclaringType != null && memberInfo.DeclaringType.IsDefined(attribute, true))
                 {
-                    attributeAux =  memberInfo.DeclaringType.GetCustomAttributes(attribute, true).First();
+                    attributeAux = memberInfo.DeclaringType.GetCustomAttributes(attribute, true).First();
                     if (attributeAux != null)
                     {
                         attributeList.Add(attributeAux);
@@ -161,17 +137,39 @@ namespace FluentQuery.Core.Intrastructure.Reflection
 
     public class ReflectionTableTypeModel
     {
-        public List<Attribute> CustomAttributes { get; set; }
+        private List<Attribute> CustomAttributes { get; set; }
         public List<ReflectionColumnTypeModel> Columns { get; set; }
 
-        public IFluentQueryFromItem TableFromItem { get; set; }
+        public IFluentQueryFromItem TableFromItem { get; private set; }
+
+        public ReflectionTableTypeModel()
+        {
+
+        }
+
+        public ReflectionTableTypeModel(string id, string tableName, List<Attribute> customAttributes)
+        {
+            TableFromItem = new FluentQueryFromItem() { Id = id, Name = tableName };
+            CustomAttributes = customAttributes;
+        }
     }
 
     public class ReflectionColumnTypeModel
     {
-        public List<Attribute> CustomAttributes { get; set; }
+        private List<Attribute> CustomAttributes { get; set; }
 
-        public IFluentQuerySelectItem ColumnSelectItem { get; set; }
+        public IFluentQuerySelectItem ColumnSelectItem { get; private set; }
+
+        public ReflectionColumnTypeModel()
+        {
+
+        }
+
+        public ReflectionColumnTypeModel(string id, string columnName, string tableName, List<Attribute> customAttributes)
+        {
+            ColumnSelectItem = new FluentQuerySelectItem(id, columnName, tableName);
+            CustomAttributes = customAttributes;
+        }
     }
 
 

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentQuery.SqlServer;
 using FluentQuery.Tests.Unit.Entities;
 using Xunit;
 
@@ -7,10 +8,15 @@ namespace FluentQuery.Tests.Unit.Statements.Select
     [Collection("FluentQuery::Statement::Select::MethodTests")]
     public class FluentQuerySelectStatementWithTableTypeTests
     {
+        public FluentQuerySelectStatementWithTableTypeTests()
+        {
+            FluentQuery.Configurations().UseSqlServer();
+        }
+
         [Fact]
         public void select_statement_all_passing_table_type_should_not_be_select_asterisk()
         {
-            var query = FluentQuery.Create().SelectAll<SimpleUser>();
+            var query = FluentQuery.SelectAll<SimpleUser>();
 
             query.CommandQuery().Should().NotBe("SELECT *");
         }
@@ -18,7 +24,7 @@ namespace FluentQuery.Tests.Unit.Statements.Select
         [Fact]
         public void select_statement_all_passing_table_type_should_be_select_with_all_type_fields()
         {
-            var query = FluentQuery.Create().SelectAll<SimpleUser>();
+            var query = FluentQuery.SelectAll<SimpleUser>();
 
             query.CommandQuery().Should().Be("SELECT [\"Id\"],[\"Name\"],[\"BirthDay\"]");
         }
@@ -26,7 +32,7 @@ namespace FluentQuery.Tests.Unit.Statements.Select
         [Fact]
         public void select_statement_passing_table_type_single_column()
         {
-            var query = FluentQuery.Create()
+            var query = FluentQuery
                 .Select<SimpleUser>(u => u.Id);
 
             query.CommandQuery()
@@ -37,7 +43,7 @@ namespace FluentQuery.Tests.Unit.Statements.Select
         [Fact]
         public void select_statement_passing_table_type_multiple_columns()
         {
-            var query = FluentQuery.Create()
+            var query = FluentQuery
                 .Select<SimpleUser>(u => u.Id, u => u.Name);
 
             query.CommandQuery()
@@ -48,7 +54,7 @@ namespace FluentQuery.Tests.Unit.Statements.Select
         [Fact]
         public void select_statement_all_passing_table_type_single_column_with_annotation()
         {
-            var query = FluentQuery.Create()
+            var query = FluentQuery
                 .SelectAll<AnnotationUser>();
 
             query.CommandQuery()
@@ -59,7 +65,7 @@ namespace FluentQuery.Tests.Unit.Statements.Select
         [Fact]
         public void select_statement_passing_table_type_multiple_columns_with_annotation()
         {
-            var query = FluentQuery.Create()
+            var query = FluentQuery
                 .Select<AnnotationUser>(u => u.Id, u => u.Name, u => u.BirthDay);
 
             query.CommandQuery()
@@ -70,7 +76,7 @@ namespace FluentQuery.Tests.Unit.Statements.Select
         [Fact]
         public void select_statement_all_passing_table_type_with_annotation()
         {
-            var query = FluentQuery.Create()
+            var query = FluentQuery
                 .SelectAll<AnnotationUser>();
 
             query.CommandQuery()
