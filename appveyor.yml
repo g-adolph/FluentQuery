@@ -11,7 +11,7 @@ nuget:
   disable_publish_on_pr: true
 build_script:
 - ps: >-
-    .\Cake\build.ps1 -Target CiBuild
+    .\build.ps1 -Target CiBuild --settings_skipverification=true
 test: off
 deploy:
   artifact: ./artifacts*.*
