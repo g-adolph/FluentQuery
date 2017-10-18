@@ -1,9 +1,9 @@
 #addin nuget:?package=Cake.Codecov
-#addin Cake.Coveralls
 #tool nuget:?package=Codecov
 #tool "nuget:?package=OpenCover"
 #tool "nuget:?package=xunit.runner.console&version=2.2.0"
 #tool "nuget:?package=ReportGenerator"
+#addin Cake.Coveralls
 #tool coveralls.net
 #tool coveralls.io
 
