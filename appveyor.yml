@@ -6,6 +6,7 @@ branches:
   - master
 image: Visual Studio 2017
 environment:
+  COVERALLS_REPO_TOKEN: nHA7aVAKJW4V2PcoQXidevpJ9ixDZFBp6
   CODECOV_TOKEN-uuid: 09262c97-8841-4e52-a22c-2ba7a3e17e41
 nuget:
   disable_publish_on_pr: true

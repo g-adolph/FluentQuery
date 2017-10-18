@@ -3,7 +3,7 @@ using FluentQuery.Core.Commands.From;
 using FluentQuery.SqlServer;
 using Xunit;
 
-namespace FluentQuery.Tests.Unit.Statements.From
+namespace FluentQuery.Tests.Unit.Core.Statements.From
 {
     [Collection("FluentQuery::Statement::From::MethodTests")]
     public class FluentQueryFromStatementWithoutTableTypeTests

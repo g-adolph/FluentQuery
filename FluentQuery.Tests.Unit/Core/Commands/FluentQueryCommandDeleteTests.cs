@@ -1,4 +1,4 @@
-﻿namespace FluentQuery.Tests.Unit.Commands
+﻿namespace FluentQuery.Tests.Unit.Core.Commands
 {
     class FluentQueryCommandDeleteTests
     {

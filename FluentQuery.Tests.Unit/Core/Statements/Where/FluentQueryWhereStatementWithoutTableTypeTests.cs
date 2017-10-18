@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using FluentQuery.Core.Commands.Where;
 using FluentQuery.SqlServer;
-using FluentQuery.Tests.Unit.Entities;
+using FluentQuery.Tests.Unit.Core.Entities;
 using Xunit;
 
-namespace FluentQuery.Tests.Unit.Statements.Where
+namespace FluentQuery.Tests.Unit.Core.Statements.Where
 {
     [Collection("FluentQuery::Statement::Where::MethodTests")]
     public class FluentQueryWhereStatementWithTableTypeTests

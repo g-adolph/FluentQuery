@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using FluentQuery.Core.Functions;
 using FluentQuery.SqlServer;
-using FluentQuery.Tests.Unit.Entities;
+using FluentQuery.Tests.Unit.Core.Entities;
 using Xunit;
 
-namespace FluentQuery.Tests.Unit.Commands
+namespace FluentQuery.Tests.Unit.Core.Commands
 {
     [Collection("FluentQuery::Commands::Select")]
     public class FluentQueryCommandSelectTests

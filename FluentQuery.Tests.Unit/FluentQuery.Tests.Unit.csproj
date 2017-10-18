@@ -5,6 +5,11 @@
     <IsPackable>false</IsPackable>
 </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
@@ -20,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Statements\Delete\" />
-    <Folder Include="Statements\Insert\" />
-    <Folder Include="Statements\Update\" />
+    <Folder Include="Core\Statements\Delete\" />
+    <Folder Include="Core\Statements\Insert\" />
+    <Folder Include="Core\Statements\Update\" />
   </ItemGroup>
 
 </Project>

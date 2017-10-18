@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using FluentQuery.SqlServer;
-using FluentQuery.Tests.Unit.Entities;
+using FluentQuery.Tests.Unit.Core.Entities;
 using Xunit;
 
-namespace FluentQuery.Tests.Unit.Statements.From
+namespace FluentQuery.Tests.Unit.Core.Statements.From
 {
     [Collection("FluentQuery::Statement::From::MethodTests")]
     public class FluentQueryFromStatementWithTableTypeTests
