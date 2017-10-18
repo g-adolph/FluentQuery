@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentQuery.Core", "FluentQuery.Core\FluentQuery.Core.csproj", "{29329C69-070B-4AF1-A990-3AD232B82956}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
-		Cake\build.cake = Cake\build.cake
+		build.cake = build.cake
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentQuery.SqlServer", "FluentQuery.SqlServer\FluentQuery.SqlServer.csproj", "{87FF519D-C8AF-4157-B6EC-D84FECA749FF}"
@@ -19,6 +19,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dialects", "Dialects", "{7E217721-99BE-4DE0-8893-20272B5E98BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{617C89DC-A99D-4A12-909D-116BF42EF9A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cake", "Cake", "{0EDE78C4-92E8-4783-B6D5-3D7C92A3BB50}"
+	ProjectSection(SolutionItems) = preProject
+		build.cake = build.cake
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +52,7 @@ Global
 		{87FF519D-C8AF-4157-B6EC-D84FECA749FF} = {7E217721-99BE-4DE0-8893-20272B5E98BA}
 		{7E217721-99BE-4DE0-8893-20272B5E98BA} = {ACE3CC87-C358-46DD-9616-BC17BDBB92CA}
 		{617C89DC-A99D-4A12-909D-116BF42EF9A2} = {ACE3CC87-C358-46DD-9616-BC17BDBB92CA}
+		{0EDE78C4-92E8-4783-B6D5-3D7C92A3BB50} = {ACE3CC87-C358-46DD-9616-BC17BDBB92CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F657C963-E171-47AC-9F37-AD05B54885DD}
