@@ -21,11 +21,6 @@ Task("Default").Does(() =>
 {
     Information("Hello World!");
 });
-Task("Clean").Does(()=>
-{
-	DeleteDirectoryIfExists("./artifacts");
-});
-
 Task("CiBuild")
 .IsDependentOn("Coverage").IsDependentOn("NugetPack").Does(() =>
 {
@@ -77,7 +72,6 @@ Task("Coverage")
 });
 
 Task("NugetPack")
-.IsDependentOn("Clean")
 .IsDependentOn("Build").Does(() =>
 {
     var settings = new DotNetCorePackSettings
