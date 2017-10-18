@@ -1,6 +1,6 @@
 language: csharp
 solution: FluentQuery.sln
-mono: none
+mono: latest
 dotnet: 2.0.0
 script:
   - ./build.sh -target=Tests
