@@ -8,6 +8,7 @@
 #tool coveralls.io
 
 var target = Argument("target", "Default");
+
 var projectName = "FluentQuery";
 var testProject = "./"+projectName+".Tests.Unit/"+projectName+".Tests.Unit.csproj";
 var testSettings = new DotNetCoreTestSettings { Configuration = "Release", NoBuild = true };

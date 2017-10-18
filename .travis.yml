@@ -3,9 +3,7 @@ solution: FluentQuery.sln
 mono: none
 dotnet: 2.0.0
 script:
-  - dotnet restore
-  - dotnet build
-  - dotnet test FluentQuery.Tests.Unit/FluentQuery.Tests.Unit.csproj
+  - ./build.sh -target=Tests
 notifications:
   email:
     recipients:

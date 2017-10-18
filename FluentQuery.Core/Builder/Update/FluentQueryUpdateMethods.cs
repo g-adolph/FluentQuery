@@ -37,7 +37,7 @@ namespace FluentQuery
 
         public static IFluentQueryUpdateBuilder Update<TTableColumn, TTableColumnUpdate>(Expression<Func<TTableColumn, object>> column, Expression<Func<TTableColumnUpdate, object>> columnUpdate)
         {
-            return new FluentQueryUpdateBuilder().Update<TTableColumn, TTableColumnUpdate>(column, columnUpdate);
+            return new FluentQueryUpdateBuilder().Update(column, columnUpdate);
         }
 
         public static IFluentQueryUpdateBuilder Update(string columnName,string tableName, IFluentQueryFunctionItem function)

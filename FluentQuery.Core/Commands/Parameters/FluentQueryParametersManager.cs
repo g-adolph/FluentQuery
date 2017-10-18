@@ -12,7 +12,7 @@ namespace FluentQuery.Core.Commands.Parameters
 
         public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
