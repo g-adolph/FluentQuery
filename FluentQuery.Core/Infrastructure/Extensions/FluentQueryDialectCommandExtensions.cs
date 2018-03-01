@@ -1,19 +1,52 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Text;
-using FluentQuery.Core.Commands.Select;
-using FluentQuery.Core.Commands.Where;
-using FluentQuery.Core.Dialects.Base;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FluentQueryDialectCommandExtensions.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the FluentQueryDialectCommandExtensions type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-[assembly: InternalsVisibleTo("FluentQuery.SqlServer")]
-namespace FluentQuery.Core.Intrastructure.Extensions
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("FluentQuery.SqlServer"), InternalsVisibleTo("FluentQuery.Postgresql")]
+
+namespace FluentQuery.Core.Infrastructure.Extensions
 {
+    using System;
+    using System.Text;
+
+    using global::FluentQuery.Core.Commands.Select;
+    using global::FluentQuery.Core.Commands.Where;
+    using global::FluentQuery.Core.Dialects.Base;
+    using global::FluentQuery.Core.Infrastructure.Enums;
+
+    /// <summary>
+    /// The fluent query dialect command extensions.
+    /// </summary>
     internal static class FluentQueryDialectCommandExtensions
     {
+        /// <summary>
+        /// The build where item.
+        /// </summary>
+        /// <param name="commandCreator">
+        /// The command creator.
+        /// </param>
+        /// <param name="whereItem">
+        /// The where item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="StringBuilder"/>.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// </exception>
         public static StringBuilder BuildWhereItem(this IFluentQueryDialectCommand commandCreator, IFluentQueryWhereItem whereItem)
         {
             var whereBuilder = new StringBuilder();
-            if (whereItem == null) return whereBuilder;
+            if (whereItem == null)
+            {
+                return whereBuilder;
+            }
 
             switch (whereItem.Operator)
             {
@@ -72,11 +105,26 @@ namespace FluentQuery.Core.Intrastructure.Extensions
             }
             return whereBuilder;
         }
-        
+
+        /// <summary>
+        /// The select item to select clause.
+        /// </summary>
+        /// <param name="commandCreator">
+        /// The command creator.
+        /// </param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public static string SelectItemToSelectClause(this IFluentQueryDialectCommand commandCreator, IFluentQuerySelectItem item)
         {
             var itemStatement = string.Empty;
-            if (item == null) return itemStatement;
+            if (item == null)
+            {
+                return itemStatement;
+            }
 
             var tableAlias = string.IsNullOrEmpty(item.TableAlias) ? string.Empty : $"[\"{item.TableAlias}\"]";
 
@@ -84,21 +132,36 @@ namespace FluentQuery.Core.Intrastructure.Extensions
 
             var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"[\"{item.Name}\"]";
 
-            itemStatement = $"{tableAlias}{(!string.IsNullOrEmpty(tableAlias) ? "." : "")}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : "")}";
+            itemStatement = $"{tableAlias}{(!string.IsNullOrEmpty(tableAlias) ? "." : string.Empty)}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : string.Empty)}";
 
             return itemStatement;
         }
 
+        /// <summary>
+        /// The select item to where clause.
+        /// </summary>
+        /// <param name="commandCreator">
+        /// The command creator.
+        /// </param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public static string SelectItemToWhereClause(this IFluentQueryDialectCommand commandCreator, IFluentQuerySelectItem item)
         {
             var itemStatement = string.Empty;
-            if (item == null) return itemStatement;
+            if (item == null)
+            {
+                return itemStatement;
+            }
 
             var tableAlias = string.IsNullOrEmpty(item.TableAlias) ? string.Empty : $"[\"{item.TableAlias}\"]";
 
             var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"[\"{item.Name}\"]";
 
-            itemStatement = $"{tableAlias}{(!string.IsNullOrEmpty(tableAlias) ? "." : "")}{name}";
+            itemStatement = $"{tableAlias}{(!string.IsNullOrEmpty(tableAlias) ? "." : string.Empty)}{name}";
 
             return itemStatement;
         }

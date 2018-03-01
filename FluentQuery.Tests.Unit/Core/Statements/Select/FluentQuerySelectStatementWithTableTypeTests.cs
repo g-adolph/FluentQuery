@@ -83,7 +83,5 @@ namespace FluentQuery.Tests.Unit.Core.Statements.Select
                 .Should().Be("SELECT [\"Id\"],[\"UserName\"],[\"UserBirthDay\"]");
 
         }
-
-        
     }
 }

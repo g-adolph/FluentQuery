@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Core\Statements\Delete\" />
-    <Folder Include="Core\Statements\Insert\" />
     <Folder Include="Core\Statements\Update\" />
   </ItemGroup>
 

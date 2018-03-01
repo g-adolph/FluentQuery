@@ -1,39 +1,84 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using FluentQuery.Core.Dialects.Base;
-using FluentQuery.Core.Intrastructure;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FluentQueryFromManager.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the FluentQueryFromManager type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
 
 namespace FluentQuery.Core.Commands.From
 {
+    using System.Collections.Generic;
+    using System.Text;
+
+    using global::FluentQuery.Core.Dialects.Base;
+    using global::FluentQuery.Core.Infrastructure;
+
+    /// <summary>
+    /// The fluent query from manager.
+    /// </summary>
     public class FluentQueryFromManager : IStatementManager
     {
-        private readonly List<IFluentQueryFromItem> _fromItems = new List<IFluentQueryFromItem>();
+        /// <summary>
+        /// The _from items.
+        /// </summary>
+        private readonly List<IFluentQueryFromItem> fromItems = new List<IFluentQueryFromItem>();
 
+        /// <summary>
+        /// The add.
+        /// </summary>
+        /// <param name="model">
+        /// The model.
+        /// </param>
         public void Add(IFluentQueryFromItem model)
         {
-            _fromItems.Add(model);
+            this.fromItems.Add(model);
         }
 
+        /// <summary>
+        /// The add range.
+        /// </summary>
+        /// <param name="models">
+        /// The models.
+        /// </param>
         public void AddRange(IFluentQueryFromItem[] models)
         {
-            _fromItems.AddRange(models);
+            this.fromItems.AddRange(models);
         }
 
+        /// <summary>
+        /// The remove.
+        /// </summary>
+        /// <param name="model">
+        /// The model.
+        /// </param>
         public void Remove(IFluentQueryFromItem model)
         {
-            _fromItems.Remove(model);
+            this.fromItems.Remove(model);
         }
 
+        /// <summary>
+        /// The build.
+        /// </summary>
+        /// <param name="commandsCreator">
+        /// The commands creator.
+        /// </param>
+        /// <returns>
+        /// The <see cref="StringBuilder"/>.
+        /// </returns>
         public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {
             var selectBuilder = new StringBuilder();
 
-            if (_fromItems.Count == 0)
+            if (this.fromItems.Count == 0)
             {
                 return selectBuilder;
             }
 
-            foreach (var item in _fromItems)
+            foreach (var item in this.fromItems)
             {
                 var itemStatement = commandsCreator.BuildFromItem(item);
                 if (itemStatement != string.Empty)
@@ -49,8 +94,5 @@ namespace FluentQuery.Core.Commands.From
 
             return selectBuilder;
         }
-
-
-
     }
 }

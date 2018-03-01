@@ -3,6 +3,8 @@ using FluentQuery.Core.Commands.Select;
 
 namespace FluentQuery.Core.Commands.Where
 {
+    using global::FluentQuery.Core.Infrastructure.Enums;
+
     public interface IFluentQueryWhereItem
     {
         string RawClause { get; set; }

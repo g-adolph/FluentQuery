@@ -1,4 +1,4 @@
-﻿namespace FluentQuery.Core.Intrastructure.Enums
+﻿namespace FluentQuery.Core.Infrastructure.Enums
 {
     public enum FluentQueryEnumFunctions
     {

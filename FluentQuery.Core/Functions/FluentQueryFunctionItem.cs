@@ -1,8 +1,9 @@
 ﻿using FluentQuery.Core.Commands.Select;
-using FluentQuery.Core.Intrastructure.Enums;
 
 namespace FluentQuery.Core.Functions
 {
+    using global::FluentQuery.Core.Infrastructure.Enums;
+
     public class FluentQueryFunctionItem: IFluentQueryFunctionItem
     {
         public FluentQueryEnumFunctions FunctionType { get; }

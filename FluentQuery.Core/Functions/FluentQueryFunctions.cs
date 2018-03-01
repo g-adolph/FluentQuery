@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq.Expressions;
-using FluentQuery.Core.Intrastructure.Enums;
-using FluentQuery.Core.Intrastructure.Expression;
 
 namespace FluentQuery.Core.Functions
 {
+    using global::FluentQuery.Core.Infrastructure.Enums;
+    using global::FluentQuery.Core.Infrastructure.Expression;
+
     public static class FluentQueryFunctions
     {
         public static IFluentQueryFunctionItem Sum(string column)

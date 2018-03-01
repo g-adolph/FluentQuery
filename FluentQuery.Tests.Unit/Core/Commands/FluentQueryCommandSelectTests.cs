@@ -60,7 +60,17 @@ namespace FluentQuery.Tests.Unit.Core.Commands
 
         }
 
-        
+        [Fact]
+        public void select_multiples_column_simple_type_without_annotations_with_join()
+        {
+            var query = FluentQuery
+                .Select<SimpleUser>()
+                .Select<AnnotationUser>()
+                .From<SimpleUser>()
+                .Join<AnnotationUser>()
+                    .On<SimpleUser>(left => left.Id)
+                    .EqualTo<AnnotationUser>(right => right.Id);
+        }
 
         //[Fact]
         public void TrashedTests()

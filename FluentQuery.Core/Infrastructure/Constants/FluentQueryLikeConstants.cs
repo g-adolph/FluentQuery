@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("FluentQuery.SqlServer")]
-namespace FluentQuery.Core.Intrastructure.Constants
+[assembly: InternalsVisibleTo("FluentQuery.SqlServer"), InternalsVisibleTo("FluentQuery.Postgresql")]
+namespace FluentQuery.Core.Infrastructure.Constants
 {
     internal static class FluentQueryLikeConstants
     {

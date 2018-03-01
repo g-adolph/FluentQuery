@@ -1,12 +1,23 @@
-﻿
-using FluentQuery.Core.Commands.From;
-using FluentQuery.Core.Commands.Select;
-using FluentQuery.Core.Commands.Update;
-using FluentQuery.Core.Commands.Where;
-using FluentQuery.Core.Dialects.Base;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FluentQueryDialectCommandAnsi.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the FluentQueryDialectCommandAnsi type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FluentQuery.Core.Dialects.Ansi
 {
+    using System.Collections.Generic;
+
+    using global::FluentQuery.Core.Commands.From;
+    using global::FluentQuery.Core.Commands.Select;
+    using global::FluentQuery.Core.Commands.Update;
+    using global::FluentQuery.Core.Commands.Where;
+    using global::FluentQuery.Core.Dialects.Base;
+    using global::FluentQuery.Core.Infrastructure.Enums;
+
     public class FluentQueryDialectCommandAnsi : IFluentQueryDialectCommand
     {
         public string CreateEqualTo(IFluentQueryWhereItem whereItem)
@@ -105,6 +116,41 @@ namespace FluentQuery.Core.Dialects.Ansi
         }
 
         public string BuildColumnItemInUpdate(IFluentQueryUpdateItem item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string CreateParameter(string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string BuildInsertColumn(IFluentQuerySelectItem item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string BuildOrderItem(KeyValuePair<IFluentQuerySelectItem, FluentQuerySortDirection> orderItem)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string BuildSortOrder(FluentQuerySortDirection order)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string BuildPaginate(long limit, long offset)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string GenerateSelectQuery(FluentQuerySelectModel queryModel)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string CreatePaginateSelectField(IFluentQuerySelectItem idField)
         {
             throw new System.NotImplementedException();
         }

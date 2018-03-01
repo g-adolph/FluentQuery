@@ -1,42 +1,110 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using FluentQuery.Core.Dialects.Base;
-using FluentQuery.Core.Intrastructure;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FluentQuerySelectManager.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The fluent query select manager.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FluentQuery.Core.Commands.Select
 {
+    using System.Collections.Generic;
+    using System.Text;
+
+    using global::FluentQuery.Core.Dialects.Base;
+    using global::FluentQuery.Core.Infrastructure;
+
+    /// <inheritdoc />
+    /// <summary>
+    /// The fluent query select manager.
+    /// </summary>
     public class FluentQuerySelectManager : IStatementManager
     {
-        private readonly List<IFluentQuerySelectItem> _selectItems = new List<IFluentQuerySelectItem>();
-        private bool _enableAllFields;
+        /// <summary>
+        /// The select items.
+        /// </summary>
+        private readonly List<IFluentQuerySelectItem> selectItems = new List<IFluentQuerySelectItem>();
 
+        /// <summary>
+        /// The enable all fields.
+        /// </summary>
+        private bool enableAllFields;
+
+        /// <summary>
+        /// The enable paginate id field.
+        /// </summary>
+        private bool enablePaginate;
+
+        /// <summary>
+        /// The add.
+        /// </summary>
+        /// <param name="model">
+        /// The model.
+        /// </param>
         public void Add(IFluentQuerySelectItem model)
         {
-            _selectItems.Add(model);
+            this.selectItems.Add(model);
         }
-        
+
+        /// <summary>
+        /// The add range.
+        /// </summary>
+        /// <param name="model">
+        /// The model.
+        /// </param>
         public void AddRange(IEnumerable<IFluentQuerySelectItem> model)
         {
-            _selectItems.AddRange(model);
+            this.selectItems.AddRange(model);
         }
-        
+
+        /// <summary>
+        /// The enable all fields.
+        /// </summary>
         public void EnableAllFields()
         {
-            _enableAllFields = !_enableAllFields;
+            this.enableAllFields = !this.enableAllFields;
         }
 
+        /// <summary>
+        /// The enable paginate.
+        /// </summary>
+        /// <param name="enable">
+        /// The enable.
+        /// </param>
+        public void EnablePaginate(bool enable)
+        {
+            this.enablePaginate = enable;
+        }
+
+        /// <summary>
+        /// The remove.
+        /// </summary>
+        /// <param name="model">
+        /// The model.
+        /// </param>
         public void Remove(IFluentQuerySelectItem model)
         {
-            _selectItems.Remove(model);
+            this.selectItems.Remove(model);
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The build.
+        /// </summary>
+        /// <param name="commandsCreator">
+        /// The commands creator.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T:System.Text.StringBuilder" />.
+        /// </returns>
         public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {
             var selectBuilder = new StringBuilder();
 
-            if (_selectItems.Count == 0 )
+            if (this.selectItems.Count == 0)
             {
-                if (_enableAllFields)
+                if (this.enableAllFields)
                 {
                     selectBuilder.Append("*");
                 }
@@ -44,13 +112,24 @@ namespace FluentQuery.Core.Commands.Select
                 return selectBuilder;
             }
 
-            foreach (var item in _selectItems)
+            IFluentQuerySelectItem idField = null; 
+            foreach (var item in this.selectItems)
             {
+                if (idField == null && item.Name.ToLower() == "id")
+                {
+                    idField = item;
+                }
+
                 var itemStatement = commandsCreator.BuildColumnItemInSelect(item);
                 if (itemStatement != string.Empty)
                 {
                     selectBuilder.Append(itemStatement + ",");
                 }
+            }
+
+            if (this.enablePaginate)
+            {
+                selectBuilder.Append(commandsCreator.CreatePaginateSelectField(idField) + ",");
             }
 
             if (selectBuilder.Length > 0)
@@ -60,7 +139,5 @@ namespace FluentQuery.Core.Commands.Select
 
             return selectBuilder;
         }
-
-        
     }
 }

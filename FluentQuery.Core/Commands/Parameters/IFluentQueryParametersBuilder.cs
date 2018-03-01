@@ -1,5 +1,7 @@
 ﻿namespace FluentQuery.Core.Commands.Parameters
 {
+    using System.Collections.Concurrent;
+
     public interface IFluentQueryParametersBuilder
     {
 
@@ -7,5 +9,7 @@
 
         IFluentQueryParametersBuilder Add(object value);
         IFluentQueryParametersBuilder Add(string key,object value);
+
+        ConcurrentDictionary<string, object> GetAllParameters();
     }
 }

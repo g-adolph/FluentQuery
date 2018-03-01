@@ -1,48 +1,143 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using FluentQuery.Core.Dialects.Base;
-using FluentQuery.Core.Intrastructure;
-using FluentQuery.Core.Intrastructure.Expression;
-using FluentQuery.Core.Intrastructure.Extensions;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FluentQueryWhereManager.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The fluent query where manager.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FluentQuery.Core.Commands.Where
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Text;
+
+    using global::FluentQuery.Core.Dialects.Base;
+    using global::FluentQuery.Core.Infrastructure;
+    using global::FluentQuery.Core.Infrastructure.Enums;
+    using global::FluentQuery.Core.Infrastructure.Expression;
+    using global::FluentQuery.Core.Infrastructure.Extensions;
+
+    /// <summary>
+    /// The fluent query where manager.
+    /// </summary>
     public class FluentQueryWhereManager : IStatementManager
     {
-        private readonly List<FluentQueryWhereItem> _whereItems = new List<FluentQueryWhereItem>();
+        /// <summary>
+        /// The where items.
+        /// </summary>
+        private readonly List<FluentQueryWhereItem> whereItems = new List<FluentQueryWhereItem>();
 
-        public void AndAdd(string clause) => _whereItems.Add(new FluentQueryWhereItem(EnumFluentQueryWhereOperators.And, clause));
+        /// <summary>
+        /// The and add.
+        /// </summary>
+        /// <param name="clause">
+        /// The clause.
+        /// </param>
+        public void AndAdd(string clause) => this.whereItems.Add(new FluentQueryWhereItem(EnumFluentQueryWhereOperators.And, clause));
 
-        public void AndAdd(params string[] clauses) => BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.And);
+        /// <summary>
+        /// The and add.
+        /// </summary>
+        /// <param name="clauses">
+        /// The clauses.
+        /// </param>
+        public void AndAdd(params string[] clauses) => this.BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.And);
 
-        public IFluentQueryWhereItem AndAdd<TTable>(Expression<Func<TTable, object>> column) => BaseOperatorAdd(column, EnumFluentQueryWhereOperators.And);
+        /// <summary>
+        /// The and add.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        ///  The Table Type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItem"/>.
+        /// </returns>
+        public IFluentQueryWhereItem AndAdd<TTable>(Expression<Func<TTable, object>> column) => this.BaseOperatorAdd(column, EnumFluentQueryWhereOperators.And);
 
-        public void AndAdd(params FluentQueryWhereItem[] clauses) => BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.And);
+        /// <summary>
+        /// The and add.
+        /// </summary>
+        /// <param name="clauses">
+        /// The clauses.
+        /// </param>
+        public void AndAdd(params FluentQueryWhereItem[] clauses) => this.BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.And);
 
-        public void OrAdd(string clause) => _whereItems.Add(new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Or, clause));
+        /// <summary>
+        /// The or add.
+        /// </summary>
+        /// <param name="clause">
+        /// The clause.
+        /// </param>
+        public void OrAdd(string clause) => this.whereItems.Add(new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Or, clause));
 
-        public void OrAdd(params string[] clauses) => BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.Or);
+        /// <summary>
+        /// The or add.
+        /// </summary>
+        /// <param name="clauses">
+        /// The clauses.
+        /// </param>
+        public void OrAdd(params string[] clauses) => this.BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.Or);
 
-        public void OrAdd(params FluentQueryWhereItem[] clauses) => BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.Or);
+        /// <summary>
+        /// The or add.
+        /// </summary>
+        /// <param name="clauses">
+        /// The clauses.
+        /// </param>
+        public void OrAdd(params FluentQueryWhereItem[] clauses) => this.BaseOperatorAdd(clauses, EnumFluentQueryWhereOperators.Or);
 
-        public IFluentQueryWhereItem OrAdd<TTable>(Expression<Func<TTable, object>> column) => BaseOperatorAdd(column, EnumFluentQueryWhereOperators.Or);
+        /// <summary>
+        /// The or add.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The Table Type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItem"/>.
+        /// </returns>
+        public IFluentQueryWhereItem OrAdd<TTable>(Expression<Func<TTable, object>> column)
+            => this.BaseOperatorAdd(column, EnumFluentQueryWhereOperators.Or);
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The build.
+        /// </summary>
+        /// <param name="commandsCreator">
+        /// The commands creator.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T:System.Text.StringBuilder" />.
+        /// </returns>
         public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {
             var whereBuilder = new StringBuilder();
 
-            if (_whereItems.Count == 0) return whereBuilder;
+            if (this.whereItems.Count == 0)
+            {
+                return whereBuilder;
+            }
 
-            foreach (var whereItem in _whereItems)
+            foreach (var whereItem in this.whereItems)
             {
                 whereBuilder.Append(commandsCreator.BuildWhereItem(whereItem) + " ");
             }
 
-            if (whereBuilder.Length <= 0) return whereBuilder;
-            var firstItem = _whereItems.First();
+            if (whereBuilder.Length <= 0)
+            {
+                return whereBuilder;
+            }
+
+            var firstItem = this.whereItems.First();
             if (CheckIfWhereItemHaveIsOrAndOperators(firstItem) && CheckIfWhereItemHaveChildrens(firstItem))
             {
                 whereBuilder.Remove(0, CheckIfWhereItemHaveIsAndOperator(firstItem) ? 4 : 3);
@@ -54,11 +149,76 @@ namespace FluentQuery.Core.Commands.Where
                     whereBuilder.Remove(0, whereBuilder.ToString().StartsWith("AND (") ? 4 : 3);
                 }
             }
+
             whereBuilder.Length--;
             return whereBuilder;
         }
 
         #region Helper Methods
+
+        /// <summary>
+        /// The last.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItem"/>.
+        /// </returns>
+        public IFluentQueryWhereItem Last()
+        {
+            return this.whereItems == null || this.whereItems.Count == 0 ? null : this.whereItems[this.whereItems.Count - 1];
+        }
+
+        /// <summary>
+        /// The check if where item have childrens.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool CheckIfWhereItemHaveChildrens(IFluentQueryWhereItem item)
+        {
+            return item.Childrens != null && item.Childrens.Count >= 2;
+        }
+
+        /// <summary>
+        /// The check if where item have is or and operators.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool CheckIfWhereItemHaveIsOrAndOperators(IFluentQueryWhereItem item)
+        {
+            return item.Operator == EnumFluentQueryWhereOperators.And ||
+                   item.Operator == EnumFluentQueryWhereOperators.Or;
+        }
+
+        /// <summary>
+        /// The check if where item have is and operator.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool CheckIfWhereItemHaveIsAndOperator(IFluentQueryWhereItem item)
+        {
+            return item.Operator == EnumFluentQueryWhereOperators.And;
+        }
+
+        /// <summary>
+        /// The base operator add.
+        /// </summary>
+        /// <param name="clauses">
+        /// The clauses.
+        /// </param>
+        /// <param name="operator">
+        /// The operator.
+        /// </param>
         private void BaseOperatorAdd(IEnumerable<IFluentQueryWhereItem> clauses, EnumFluentQueryWhereOperators @operator)
         {
             var item = new FluentQueryWhereItem(@operator);
@@ -67,9 +227,19 @@ namespace FluentQuery.Core.Commands.Where
             {
                 item.AddChildren(new FluentQueryWhereItem(@operator, clause));
             }
-            _whereItems.Add(item);
+
+            this.whereItems.Add(item);
         }
 
+        /// <summary>
+        /// The base operator add.
+        /// </summary>
+        /// <param name="clauses">
+        /// The clauses.
+        /// </param>
+        /// <param name="operator">
+        /// The operator.
+        /// </param>
         private void BaseOperatorAdd(IEnumerable<string> clauses, EnumFluentQueryWhereOperators @operator)
         {
             var item = new FluentQueryWhereItem(@operator);
@@ -78,42 +248,32 @@ namespace FluentQuery.Core.Commands.Where
             {
                 item.AddChildren(new FluentQueryWhereItem(@operator, clause));
             }
-            _whereItems.Add(item);
+
+            this.whereItems.Add(item);
         }
 
+        /// <summary>
+        /// The base operator add.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="operator">
+        /// The operator.
+        /// </param>
+        /// <typeparam name="TTable">
+        ///  The Table Type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItem"/>.
+        /// </returns>
         private IFluentQueryWhereItem BaseOperatorAdd<TTable>(Expression<Func<TTable, object>> column, EnumFluentQueryWhereOperators @operator)
         {
-            var item = new FluentQueryWhereItem(@operator,
-                ExpressionResult.ResolveSelect(column));
-            _whereItems.Add(item);
+            var item = new FluentQueryWhereItem(@operator, ExpressionResult.ResolveSelect(column));
+            this.whereItems.Add(item);
 
             return item;
         }
-
-        public IFluentQueryWhereItem Last()
-        {
-            return _whereItems == null || _whereItems.Count == 0 ? null : _whereItems[_whereItems.Count - 1];
-        }
-
-
-        private static bool CheckIfWhereItemHaveChildrens(IFluentQueryWhereItem item)
-        {
-            return (item.Childrens != null && item.Childrens.Count >= 2);
-        }
-
-        private static bool CheckIfWhereItemHaveIsOrAndOperators(IFluentQueryWhereItem item)
-        {
-            return item.Operator == EnumFluentQueryWhereOperators.And ||
-                   item.Operator == EnumFluentQueryWhereOperators.Or;
-        }
-
-        private static bool CheckIfWhereItemHaveIsAndOperator(IFluentQueryWhereItem item)
-        {
-            return item.Operator == EnumFluentQueryWhereOperators.And;
-        }
-
         #endregion
     }
-
-
 }

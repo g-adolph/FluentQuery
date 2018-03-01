@@ -6,6 +6,8 @@ using Xunit;
 
 namespace FluentQuery.Tests.Unit.Core.Statements.Where
 {
+    using global::FluentQuery.Core.Infrastructure.Enums;
+
     [Collection("FluentQuery::Statement::Where::MethodTests")]
     public class FluentQueryWhereStatementWithTableTypeTests
     {

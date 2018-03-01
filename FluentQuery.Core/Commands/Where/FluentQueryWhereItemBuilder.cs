@@ -1,201 +1,695 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using FluentQuery.Core.Commands.Select;
-using FluentQuery.Core.Intrastructure;
-using FluentQuery.Core.Intrastructure.Constants;
-using FluentQuery.Core.Intrastructure.Expression;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FluentQueryWhereItemBuilder.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the FluentQueryWhereItemBuilder type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FluentQuery.Core.Commands.Where
 {
-    public class FluentQueryWhereItemBuilder<TStatementBuilder,TFluentQueryModel> : IFluentQueryWhereItemBuilder<TStatementBuilder> 
-        where TStatementBuilder: IFluentQueryBaseBuilder<TFluentQueryModel> 
-        where TFluentQueryModel : IFluentQueryModel
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq.Expressions;
+
+    using global::FluentQuery.Core.Commands.Select;
+    using global::FluentQuery.Core.Infrastructure;
+    using global::FluentQuery.Core.Infrastructure.Constants;
+    using global::FluentQuery.Core.Infrastructure.Enums;
+    using global::FluentQuery.Core.Infrastructure.Expression;
+
+    /// <summary>
+    /// The fluent query where item builder.
+    /// </summary>
+    /// <typeparam name="TStatementBuilder">
+    /// The Statement Builder Type
+    /// </typeparam>
+    /// <typeparam name="TFluentQueryModel">
+    /// The Query Model Type
+    /// </typeparam>
+    public class FluentQueryWhereItemBuilder<TStatementBuilder, TFluentQueryModel> : IFluentQueryWhereItemBuilder<TStatementBuilder>
+        where TStatementBuilder : IFluentQueryBaseBuilder<TFluentQueryModel> where TFluentQueryModel : IFluentQueryModel
     {
-        private readonly TStatementBuilder _parentQueryBuilder;
-        private readonly IFluentQueryWhereItem _whereItem;
+        /// <summary>
+        /// The _parent query builder.
+        /// </summary>
+        private readonly TStatementBuilder parentQueryBuilder;
+
+        /// <summary>
+        /// The _where item.
+        /// </summary>
+        private readonly IFluentQueryWhereItem whereItem;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FluentQueryWhereItemBuilder{TStatementBuilder,TFluentQueryModel}"/> class.
+        /// </summary>
+        /// <param name="parentQueryBuilder">
+        /// The parent query builder.
+        /// </param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         public FluentQueryWhereItemBuilder(TStatementBuilder parentQueryBuilder, IFluentQueryWhereItem item)
         {
-            _whereItem = item;
-            _parentQueryBuilder = parentQueryBuilder;
+            this.whereItem = item;
+            this.parentQueryBuilder = parentQueryBuilder;
         }
+
+        /// <summary>
+        /// The and.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
         public IFluentQueryWhereItemBuilder<TStatementBuilder> And()
         {
             var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.And);
-            _whereItem.AddChildren(item);
+            this.whereItem.AddChildren(item);
 
-            return new FluentQueryWhereItemBuilder<TStatementBuilder, TFluentQueryModel>(_parentQueryBuilder, item);
+            return new FluentQueryWhereItemBuilder<TStatementBuilder, TFluentQueryModel>(this.parentQueryBuilder, item);
         }
 
+        /// <summary>
+        /// The or.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public IFluentQueryWhereItemBuilder<TStatementBuilder> Or()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The in.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public IFluentQueryWhereItemBuilder<TStatementBuilder> In()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The exists.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public IFluentQueryWhereItemBuilder<TStatementBuilder> Exists()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The not.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public IFluentQueryWhereItemBuilder<TStatementBuilder> Not()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The custom condition.
+        /// </summary>
+        /// <param name="condition">
+        /// The condition.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public TStatementBuilder CustomCondition(string condition)
         {
             throw new NotImplementedException();
         }
 
-        public TStatementBuilder EqualTo(object value) => BaseComparison(value, EnumFluentQueryWhereOperators.EqualTo);
+        /// <summary>
+        /// The equal to.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder EqualTo(object value) => this.BaseComparison(value, EnumFluentQueryWhereOperators.EqualTo);
 
-        public TStatementBuilder EqualTo<TTable>(Expression<Func<TTable, object>> column) => BaseComparison(column, EnumFluentQueryWhereOperators.EqualTo);
+        /// <summary>
+        /// The equal to.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1622:GenericTypeParameterDocumentationMustHaveText", Justification = "Reviewed. Suppression is OK here.")]
+        public TStatementBuilder EqualTo<TTable>(Expression<Func<TTable, object>> column) => this.BaseComparison(column, EnumFluentQueryWhereOperators.EqualTo);
 
-        public TStatementBuilder NotEqualTo(object value) => BaseComparison(value, EnumFluentQueryWhereOperators.NotEqualTo);
+        /// <summary>
+        /// The not equal to.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder NotEqualTo(object value) => this.BaseComparison(value, EnumFluentQueryWhereOperators.NotEqualTo);
 
-        public TStatementBuilder NotEqualTo<TTable>(Expression<Func<TTable, object>> column) => BaseComparison(column, EnumFluentQueryWhereOperators.NotEqualTo);
+        /// <summary>
+        /// The not equal to.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The Table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder NotEqualTo<TTable>(Expression<Func<TTable, object>> column) => this.BaseComparison(column, EnumFluentQueryWhereOperators.NotEqualTo);
 
-        public TStatementBuilder GreaterThan(object value) => BaseComparison(value, EnumFluentQueryWhereOperators.GreaterThan);
+        /// <summary>
+        /// The greater than.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder GreaterThan(object value) => this.BaseComparison(value, EnumFluentQueryWhereOperators.GreaterThan);
 
-        public TStatementBuilder GreaterThan<TTable>(Expression<Func<TTable, object>> column) => BaseComparison(column, EnumFluentQueryWhereOperators.GreaterThan);
+        /// <summary>
+        /// The greater than.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The Table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder GreaterThan<TTable>(Expression<Func<TTable, object>> column) => this.BaseComparison(column, EnumFluentQueryWhereOperators.GreaterThan);
 
-        public TStatementBuilder GreaterOrEqualTo(object value) => BaseComparison(value, EnumFluentQueryWhereOperators.GreaterOrEqualTo);
+        /// <summary>
+        /// The greater or equal to.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder GreaterOrEqualTo(object value) => this.BaseComparison(value, EnumFluentQueryWhereOperators.GreaterOrEqualTo);
 
-        public TStatementBuilder GreaterOrEqualTo<TTable>(Expression<Func<TTable, object>> column) => BaseComparison(column, EnumFluentQueryWhereOperators.GreaterOrEqualTo);
+        /// <summary>
+        /// The greater or equal to.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The Table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder GreaterOrEqualTo<TTable>(Expression<Func<TTable, object>> column) => this.BaseComparison(column, EnumFluentQueryWhereOperators.GreaterOrEqualTo);
 
-        public TStatementBuilder LessThan(object value) => BaseComparison(value, EnumFluentQueryWhereOperators.LessThan);
+        /// <summary>
+        /// The less than.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder LessThan(object value) => this.BaseComparison(value, EnumFluentQueryWhereOperators.LessThan);
 
-        public TStatementBuilder LessThan<TTable>(Expression<Func<TTable, object>> column) => BaseComparison(column, EnumFluentQueryWhereOperators.LessOrEqualTo);
+        /// <summary>
+        /// The less than.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The Table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder LessThan<TTable>(Expression<Func<TTable, object>> column) => this.BaseComparison(column, EnumFluentQueryWhereOperators.LessOrEqualTo);
 
-        public TStatementBuilder LessOrEqualTo(object value) => BaseComparison(value, EnumFluentQueryWhereOperators.LessOrEqualTo);
+        /// <summary>
+        /// The less or equal to.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder LessOrEqualTo(object value) => this.BaseComparison(value, EnumFluentQueryWhereOperators.LessOrEqualTo);
 
-        public TStatementBuilder LessOrEqualTo<TTable>(Expression<Func<TTable, object>> column) => BaseComparison(column, EnumFluentQueryWhereOperators.LessOrEqualTo);
+        /// <summary>
+        /// The less or equal to.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The Table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder LessOrEqualTo<TTable>(Expression<Func<TTable, object>> column) => this.BaseComparison(column, EnumFluentQueryWhereOperators.LessOrEqualTo);
 
+        /// <summary>
+        /// The is null.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         public TStatementBuilder IsNull()
         {
-            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Null) { Column = _whereItem.Column };
-            _whereItem.AddChildren(item);
-            return _parentQueryBuilder;
+            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Null) { Column = this.whereItem.Column };
+            this.whereItem.AddChildren(item);
+            return this.parentQueryBuilder;
         }
 
+        /// <summary>
+        /// The is not null.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         public TStatementBuilder IsNotNull()
         {
-            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.NotNull) { Column = _whereItem.Column };
-            _whereItem.AddChildren(item);
-            return _parentQueryBuilder;
+            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.NotNull) { Column = this.whereItem.Column };
+            this.whereItem.AddChildren(item);
+            return this.parentQueryBuilder;
         }
 
+        /// <summary>
+        /// The is empty.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         public TStatementBuilder IsEmpty()
         {
-            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Empty) { Column = _whereItem.Column };
-            _whereItem.AddChildren(item);
-            return _parentQueryBuilder;
+            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Empty) { Column = this.whereItem.Column };
+            this.whereItem.AddChildren(item);
+            return this.parentQueryBuilder;
         }
 
+        /// <summary>
+        /// The is not empty.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         public TStatementBuilder IsNotEmpty()
         {
-            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.NotEmpty) { Column = _whereItem.Column };
-            _whereItem.AddChildren(item);
-            return _parentQueryBuilder;
+            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.NotEmpty) { Column = this.whereItem.Column };
+            this.whereItem.AddChildren(item);
+            return this.parentQueryBuilder;
         }
 
+        /// <summary>
+        /// The between.
+        /// </summary>
+        /// <param name="condition">
+        /// The condition.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        /// <exception cref="NotImplementedException">
+        /// </exception>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public TStatementBuilder Between(string condition)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The between.
+        /// </summary>
+        /// <param name="begin">
+        /// The begin.
+        /// </param>
+        /// <param name="end">
+        /// The end.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         public TStatementBuilder Between(object begin, object end)
         {
-            return BaseBetween(begin, end);
+            return this.BaseBetween(begin, end);
         }
 
+        /// <summary>
+        /// The between.
+        /// </summary>
+        /// <param name="begin">
+        /// The begin.
+        /// </param>
+        /// <param name="end">
+        /// The end.
+        /// </param>
+        /// <typeparam name="TType">
+        /// The Table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         public TStatementBuilder Between<TType>(TType begin, TType end)
         {
-            return BaseBetween(begin, end);
+            return this.BaseBetween(begin, end);
         }
 
-        public TStatementBuilder Between<TTable>(Expression<Func<TTable, object>> begin, Expression<Func<TTable, object>> end) => BaseBetween(ExpressionResult.ResolveSelect(begin), ExpressionResult.ResolveSelect(end));
+        /// <summary>
+        /// The between.
+        /// </summary>
+        /// <param name="begin">
+        /// The begin.
+        /// </param>
+        /// <param name="end">
+        /// The end.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The Table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder Between<TTable>(Expression<Func<TTable, object>> begin, Expression<Func<TTable, object>> end) => 
+            this.BaseBetween(ExpressionResult.ResolveSelect(begin), ExpressionResult.ResolveSelect(end));
 
-        public TStatementBuilder Between<TTableBegin, TTableEnd>(Expression<Func<TTableBegin, object>> begin, Expression<Func<TTableEnd, object>> end) => BaseBetween(ExpressionResult.ResolveSelect(begin), ExpressionResult.ResolveSelect(end));
+        /// <summary>
+        /// The between.
+        /// </summary>
+        /// <param name="begin">
+        /// The begin.
+        /// </param>
+        /// <param name="end">
+        /// The end.
+        /// </param>
+        /// <typeparam name="TTableBegin">
+        /// The Table Begin type
+        /// </typeparam>
+        /// <typeparam name="TTableEnd">
+        /// The Table End type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder Between<TTableBegin, TTableEnd>(Expression<Func<TTableBegin, object>> begin, Expression<Func<TTableEnd, object>> end) => 
+            this.BaseBetween(ExpressionResult.ResolveSelect(begin), ExpressionResult.ResolveSelect(end));
 
-        public TStatementBuilder Like(object value, FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full,
-            FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => BaseLike(value, comparison, stringComparison);
+        /// <summary>
+        /// The like.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="comparison">
+        /// The comparison.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder Like(object value, FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full, FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => 
+            this.BaseLike(value, comparison, stringComparison);
 
-        public TStatementBuilder StartsWith(object value,
-            FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => BaseLike(value, FluentQueryLikeComparison.Begin, stringComparison);
+        /// <summary>
+        /// The starts with.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder StartsWith(object value, FluentQueryStringCase stringComparison = FluentQueryStringCase.None) =>
+            this.BaseLike(value, FluentQueryLikeComparison.Begin, stringComparison);
 
-        public TStatementBuilder EndsWith(object value,
-            FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => BaseLike(value, FluentQueryLikeComparison.End, stringComparison);
+        /// <summary>
+        /// The ends with.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder EndsWith(object value, FluentQueryStringCase stringComparison = FluentQueryStringCase.None) =>
+            this.BaseLike(value, FluentQueryLikeComparison.End, stringComparison);
 
-        public TStatementBuilder Contains(object value,
-            FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => BaseLike(value, FluentQueryLikeComparison.Any, stringComparison);
+        /// <summary>
+        /// The contains.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder Contains(object value, FluentQueryStringCase stringComparison = FluentQueryStringCase.None) =>
+            this.BaseLike(value, FluentQueryLikeComparison.Any, stringComparison);
 
-        public TStatementBuilder StartsWith<TTable>(Expression<Func<TTable, object>> column,
-            FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => BaseLike(column, FluentQueryLikeComparison.Begin, stringComparison);
+        /// <summary>
+        /// The starts with.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// The table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder StartsWith<TTable>(Expression<Func<TTable, object>> column, FluentQueryStringCase stringComparison = FluentQueryStringCase.None) =>
+            this.BaseLike(column, FluentQueryLikeComparison.Begin, stringComparison);
 
-        public TStatementBuilder EndsWith<TTable>(Expression<Func<TTable, object>> column,
-            FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => BaseLike(column, FluentQueryLikeComparison.End, stringComparison);
+        /// <summary>
+        /// The ends with.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <typeparam name="TTable">
+        ///  The table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder EndsWith<TTable>(Expression<Func<TTable, object>> column, FluentQueryStringCase stringComparison = FluentQueryStringCase.None) =>
+            this.BaseLike(column, FluentQueryLikeComparison.End, stringComparison);
 
-        public TStatementBuilder Contains<TTable>(Expression<Func<TTable, object>> column,
-            FluentQueryStringCase stringComparison = FluentQueryStringCase.None) => BaseLike(column, FluentQueryLikeComparison.Any, stringComparison);
+        /// <summary>
+        /// The contains.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <typeparam name="TTable">
+        ///  The table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder Contains<TTable>(Expression<Func<TTable, object>> column, FluentQueryStringCase stringComparison = FluentQueryStringCase.None) =>
+            this.BaseLike(column, FluentQueryLikeComparison.Any, stringComparison);
 
+        /// <summary>
+        /// The like.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="customComparison">
+        /// The custom comparison.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         public TStatementBuilder Like(object value, string customComparison)
         {
-            var tuple = _parentQueryBuilder.GetQueryModel().Parameters.Add(value);
+            var tuple = this.parentQueryBuilder.GetQueryModel().Parameters.Add(value);
             var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Like)
             {
                 AdditionalParams = new Dictionary<string, object>
                 {
-                    {FluentQueryLikeConstants.CustomComparison, customComparison}
+                    { FluentQueryLikeConstants.CustomComparison, customComparison }
                 }
             };
             item.ParameterList.Add(tuple.Item1);
 
-            _whereItem.AddChildren(item);
+            this.whereItem.AddChildren(item);
 
-            return _parentQueryBuilder;
+            return this.parentQueryBuilder;
         }
 
-        public TStatementBuilder Like<TTable>(Expression<Func<TTable, object>> column,
+        /// <summary>
+        /// The like.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="comparison">
+        /// The comparison.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <typeparam name="TTable">
+        ///  The table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        public TStatementBuilder Like<TTable>(
+            Expression<Func<TTable, object>> column,
             FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full,
             FluentQueryStringCase stringComparison = FluentQueryStringCase.None)
         {
-            return BaseLike(column, FluentQueryLikeComparison.Full, stringComparison);
+            return this.BaseLike(column, FluentQueryLikeComparison.Full, stringComparison);
         }
 
+        /// <summary>
+        /// The base comparison.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="enumFluentQueryWhereOperators">
+        /// The enum fluent query where operators.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         private TStatementBuilder BaseComparison(object value, EnumFluentQueryWhereOperators enumFluentQueryWhereOperators)
         {
             var item = new FluentQueryWhereItem(enumFluentQueryWhereOperators);
-            var tuple = _parentQueryBuilder.GetQueryModel().Parameters.Add(value);
+            var tuple = this.parentQueryBuilder.GetQueryModel().Parameters.Add(value);
             item.ParameterList.Add(tuple.Item1);
-            item.Column = _whereItem.Column;
-            _whereItem.AddChildren(item);
-            return _parentQueryBuilder;
+            item.Column = this.whereItem.Column;
+            this.whereItem.AddChildren(item);
+            return this.parentQueryBuilder;
         }
 
+        /// <summary>
+        /// The base comparison.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="enumFluentQueryWhereOperators">
+        /// The enum fluent query where operators.
+        /// </param>
+        /// <typeparam name="TTable">
+        ///  The table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         private TStatementBuilder BaseComparison<TTable>(Expression<Func<TTable, object>> column, EnumFluentQueryWhereOperators enumFluentQueryWhereOperators)
         {
-            _whereItem.AddChildren(new FluentQueryWhereItem(enumFluentQueryWhereOperators, ExpressionResult.ResolveSelect(column)));
-            return _parentQueryBuilder;
+            this.whereItem.AddChildren(new FluentQueryWhereItem(enumFluentQueryWhereOperators, ExpressionResult.ResolveSelect(column)));
+            return this.parentQueryBuilder;
         }
 
+        /// <summary>
+        /// The base between.
+        /// </summary>
+        /// <param name="begin">
+        /// The begin.
+        /// </param>
+        /// <param name="end">
+        /// The end.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         private TStatementBuilder BaseBetween(object begin, object end)
         {
             var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Between);
-            var tupleBegin = _parentQueryBuilder.GetQueryModel().Parameters.Add(begin);
-            var tupleEnd = _parentQueryBuilder.GetQueryModel().Parameters.Add(end);
+            var tupleBegin = this.parentQueryBuilder.GetQueryModel().Parameters.Add(begin);
+            var tupleEnd = this.parentQueryBuilder.GetQueryModel().Parameters.Add(end);
             item.ParameterList.Add(tupleBegin.Item1);
             item.ParameterList.Add(tupleEnd.Item1);
-            item.Column = _whereItem.Column;
-            _whereItem.AddChildren(item);
-            return _parentQueryBuilder;
+            item.Column = this.whereItem.Column;
+            this.whereItem.AddChildren(item);
+            return this.parentQueryBuilder;
         }
 
+        /// <summary>
+        /// The base between.
+        /// </summary>
+        /// <param name="begin">
+        /// The begin.
+        /// </param>
+        /// <param name="end">
+        /// The end.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
         private TStatementBuilder BaseBetween(IFluentQuerySelectItem begin, IFluentQuerySelectItem end)
         {
             var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Between);
@@ -205,49 +699,83 @@ namespace FluentQuery.Core.Commands.Where
             item.AddChildren(itemBegin);
             item.AddChildren(itemEnd);
 
-            _whereItem.AddChildren(item);
+            this.whereItem.AddChildren(item);
 
-            return _parentQueryBuilder;
+            return this.parentQueryBuilder;
         }
 
-
-        private TStatementBuilder BaseLike(object value, FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full,
+        /// <summary>
+        /// The base like.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        /// <param name="comparison">
+        /// The comparison.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        private TStatementBuilder BaseLike(
+            object value,
+            FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full,
             FluentQueryStringCase stringComparison = FluentQueryStringCase.None)
         {
-            var tuple = _parentQueryBuilder.GetQueryModel().Parameters.Add(value);
+            var tuple = this.parentQueryBuilder.GetQueryModel().Parameters.Add(value);
             var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Like)
             {
                 AdditionalParams = new Dictionary<string, object>
                 {
-                    {FluentQueryLikeConstants.ComparisonEnum, comparison},
-                    {FluentQueryLikeConstants.StringComparisonEnum, stringComparison}
+                    { FluentQueryLikeConstants.ComparisonEnum, comparison },
+                    { FluentQueryLikeConstants.StringComparisonEnum, stringComparison }
                 },
-                Column = _whereItem.Column
+                Column = this.whereItem.Column
             };
             item.ParameterList.Add(tuple.Item1);
 
-            _whereItem.AddChildren(item);
+            this.whereItem.AddChildren(item);
 
-            return _parentQueryBuilder;
+            return this.parentQueryBuilder;
         }
 
-        private TStatementBuilder BaseLike<TTable>(Expression<Func<TTable, object>> column, FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full,
+        /// <summary>
+        /// The base like.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="comparison">
+        /// The comparison.
+        /// </param>
+        /// <param name="stringComparison">
+        /// The string comparison.
+        /// </param>
+        /// <typeparam name="TTable">
+        ///  The table type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="TStatementBuilder"/>.
+        /// </returns>
+        private TStatementBuilder BaseLike<TTable>(
+            Expression<Func<TTable, object>> column,
+            FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full,
             FluentQueryStringCase stringComparison = FluentQueryStringCase.None)
         {
-            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Like,
-                ExpressionResult.ResolveSelect(column))
+            var item = new FluentQueryWhereItem(EnumFluentQueryWhereOperators.Like, ExpressionResult.ResolveSelect(column))
             {
                 AdditionalParams = new Dictionary<string, object>
                 {
-                    {"comparison", comparison},
-                    {"stringComparison", stringComparison}
+                    { "comparison", comparison },
+                    { "stringComparison", stringComparison }
                 },
-                Column = _whereItem.Column
+                Column = this.whereItem.Column
             };
-            _whereItem.AddChildren(item);
+            this.whereItem.AddChildren(item);
 
-            return _parentQueryBuilder;
+            return this.parentQueryBuilder;
         }
-
     }
 }

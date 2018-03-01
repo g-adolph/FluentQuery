@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using FluentQuery.Core.Dialects.Base;
-using FluentQuery.Core.Intrastructure;
 
 namespace FluentQuery.Core.Commands.Update
 {
+    using global::FluentQuery.Core.Infrastructure;
+
     public class FluentQueryUpdateManager : IStatementManager
     {
         private readonly List<IFluentQueryUpdateItem> _updateItems = new List<IFluentQueryUpdateItem>();
