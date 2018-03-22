@@ -16,8 +16,7 @@ namespace FluentQuery.Core.Infrastructure.Extensions
     using System;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.Select;
-    using global::FluentQuery.Core.Commands.Where;
+    using global::FluentQuery.Core.Commands.Interfaces;
     using global::FluentQuery.Core.Dialects.Base;
     using global::FluentQuery.Core.Infrastructure.Enums;
 
@@ -40,7 +39,7 @@ namespace FluentQuery.Core.Infrastructure.Extensions
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// </exception>
-        public static StringBuilder BuildWhereItem(this IFluentQueryDialectCommand commandCreator, IFluentQueryWhereItem whereItem)
+        public static StringBuilder BuildWhereItem(this IFluentQueryDialectCommand commandCreator, IFluentQueryWhereItemModel whereItem)
         {
             var whereBuilder = new StringBuilder();
             if (whereItem == null)
@@ -103,6 +102,7 @@ namespace FluentQuery.Core.Infrastructure.Extensions
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             return whereBuilder;
         }
 
@@ -165,7 +165,5 @@ namespace FluentQuery.Core.Infrastructure.Extensions
 
             return itemStatement;
         }
-
-
     }
 }

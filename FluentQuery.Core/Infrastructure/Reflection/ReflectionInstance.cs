@@ -12,10 +12,11 @@ namespace FluentQuery.Core.Infrastructure.Reflection
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Reflection;
+
+    using global::FluentQuery.Core.Commands.Interfaces;
 
     /// <summary>
     /// The reflection instance.
@@ -55,14 +56,14 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         {
             if (CacheReflectionTypes.TryGetValue(tableType, out var typeModel))
             {
-                return typeModel;
+                return (ReflectionTableTypeModel)typeModel.Clone();
             }
 
             typeModel = tableType.CreateTable();
 
             tableType.GetProperties().AddColumns(typeModel);
 
-            CacheReflectionTypes.TryAdd(tableType, typeModel);
+            CacheReflectionTypes.TryAdd(tableType, (ReflectionTableTypeModel)typeModel.Clone());
 
             return typeModel;
         }
@@ -76,19 +77,29 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// <param name="typeModel">
         /// The type model.
         /// </param>
-        private static void AddColumns(this PropertyInfo[] properties, ReflectionTableTypeModel typeModel)
+        private static void AddColumns(this IReadOnlyCollection<PropertyInfo> properties, ReflectionTableTypeModel typeModel)
         {
-            if (properties == null || properties.Length == 0)
+            if (properties == null || properties.Count == 0)
             {
                 return;
             }
 
             typeModel.Columns = new List<ReflectionColumnTypeModel>();
-
             foreach (var property in properties)
             {
-                typeModel.Columns.Add(property.ConvertPropertyToReflectionColumn(typeModel.TableFromItem.Name));
+                typeModel.Columns.Add(property.ConvertPropertyToReflectionColumn(typeModel.TableFromItem));
             }
+
+            typeModel.Columns.Sort(
+                (left, right) =>
+                    {
+                        if (left.IsPrimaryKey())
+                        {
+                            return -1;
+                        }
+
+                        return right.IsPrimaryKey() ? 1 : string.Compare(left.ColumnProperty.Name, right.ColumnProperty.Name, StringComparison.Ordinal);
+                    });
         }
 
         /// <summary>
@@ -97,20 +108,23 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// <param name="property">
         /// The property.
         /// </param>
-        /// <param name="tableName">
-        /// The table name.
+        /// <param name="table">
+        /// The table.
         /// </param>
         /// <returns>
         /// The <see cref="ReflectionColumnTypeModel"/>.
         /// </returns>
-        private static ReflectionColumnTypeModel ConvertPropertyToReflectionColumn(this PropertyInfo property, string tableName)
+        private static ReflectionColumnTypeModel ConvertPropertyToReflectionColumn(this PropertyInfo property, IFluentQueryFromItemModel table)
         {
-            var columnAttribute = property.GetSingleAttributeOfMemberOrDeclaringTypeOrNull<ColumnAttribute>();
+            var attributes = property.GetAllAttributesByMember();
+            var columnAttribute = (ColumnAttribute)attributes?.FirstOrDefault(t => t is ColumnAttribute);
+
             var columnName = columnAttribute?.Name ?? property.Name;
-            var columnTypeModel = new ReflectionColumnTypeModel(property, columnName, tableName, new List<Attribute> { columnAttribute });
-            //todo: use conventions to change name,alias,tableAlias;
-            //todo: Create DataAnnotation and parameter to set this;
-            //todo: Add isKey info in selectItemModel
+
+            var columnTypeModel = new ReflectionColumnTypeModel(property, columnName, property.Name, table.Name, table.Alias, attributes);
+
+            // todo: use conventions to change name,alias,tableAlias;
+            // todo: Create DataAnnotation and parameter to set this;
 
             return columnTypeModel;
         }
@@ -129,9 +143,11 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         private static ReflectionTableTypeModel CreateTable(this MemberInfo type)
         {
             var tableName = type.Name;
-            var tableAttribute = type.GetSingleAttributeOfMemberOrDeclaringTypeOrNull<TableAttribute>();
+            var attributes = type.GetAllAttributesByMember();
+            var tableAttribute = (TableAttribute)attributes?.FirstOrDefault(t => t is TableAttribute);
+
             var tableTypeModel =
-                new ReflectionTableTypeModel(tableName, tableName, new List<Attribute> { tableAttribute });
+                new ReflectionTableTypeModel(tableName, tableName, tableName, attributes);
 
             if (tableAttribute == null)
             {
@@ -145,15 +161,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
 
         }
         #endregion
-        /// <summary>
-        /// Get Key Attribute value by MemberInfo
-        /// </summary>
-        /// <param name="member"></param>
-        /// <returns></returns>
-        private static bool IsKey(this MemberInfo member)
-        {
-            return member.GetSingleAttributeOfMemberOrDeclaringTypeOrNull<KeyAttribute>() != null;
-        }
+
         /// <summary>
         /// The get attributes of member or declaring type.
         /// </summary>
@@ -164,7 +172,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// The attributes.
         /// </param>
         /// <returns>
-        /// The <see cref="List"/>.
+        /// The <see cref="T:List"/>.
         /// </returns>
         private static List<object> GetAttributesOfMemberOrDeclaringType(
             this MemberInfo memberInfo, IEnumerable<Type> attributes)
@@ -182,7 +190,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
                         attributeList.Add(attributeAux);
                     }
                 }
-                else if (memberInfo.DeclaringType != null && memberInfo.DeclaringType.IsDefined(attribute, true))  
+                else if (memberInfo.DeclaringType != null && memberInfo.DeclaringType.IsDefined(attribute, true))
                 {
                     // Get attribute from class
                     attributeAux = memberInfo.DeclaringType.GetCustomAttributes(attribute, true).First();
@@ -207,20 +215,18 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// <returns>
         /// The <see cref="TAttribute"/>.
         /// </returns>
-        private static TAttribute GetSingleAttributeOfMemberOrDeclaringTypeOrNull<TAttribute>(this MemberInfo memberInfo)
-            where TAttribute : Attribute
+        private static List<Attribute> GetAllAttributesByMember(this MemberInfo memberInfo)
         {
             //Get attribute on the member
-            if (memberInfo.IsDefined(typeof(TAttribute), true))
+            if (memberInfo.IsDefined(typeof(Attribute), true))
             {
-                return memberInfo.GetCustomAttributes(typeof(TAttribute), true).Cast<TAttribute>().First();
+                return memberInfo.GetCustomAttributes(typeof(Attribute), true).Cast<Attribute>().ToList();
             }
 
             //Get attribute from class
-            if (memberInfo.DeclaringType != null && memberInfo.DeclaringType.IsDefined(typeof(TAttribute), true))
+            if (memberInfo.DeclaringType != null && memberInfo.DeclaringType.IsDefined(typeof(Attribute), true))
             {
-                return
-                    memberInfo.DeclaringType.GetCustomAttributes(typeof(TAttribute), true).Cast<TAttribute>().First();
+                return memberInfo.DeclaringType.GetCustomAttributes(typeof(Attribute), true).Cast<Attribute>().ToList();
             }
 
             return null;

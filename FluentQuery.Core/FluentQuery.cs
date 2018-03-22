@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-
 // ReSharper disable once CheckNamespace
 namespace FluentQuery
 {

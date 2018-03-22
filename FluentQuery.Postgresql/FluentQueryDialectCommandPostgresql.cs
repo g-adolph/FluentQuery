@@ -11,10 +11,9 @@ namespace FluentQuery.Postgresql
 {
     using System.Collections.Generic;
     using System.Text;
-    using global::FluentQuery.Core.Commands.From;
-    using global::FluentQuery.Core.Commands.Select;
-    using global::FluentQuery.Core.Commands.Update;
-    using global::FluentQuery.Core.Commands.Where;
+
+    using global::FluentQuery.Core.Commands.Interfaces;
+    using global::FluentQuery.Core.Commands.Model;
     using global::FluentQuery.Core.Dialects.Base;
     using global::FluentQuery.Core.Infrastructure.Constants;
     using global::FluentQuery.Core.Infrastructure.Enums;
@@ -94,7 +93,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string BuildFromItem(IFluentQueryFromItem item)
+        public string BuildFromItem(IFluentQueryFromItemModel item)
         {
             var itemStatement = string.Empty;
             if (item == null)
@@ -112,6 +111,34 @@ namespace FluentQuery.Postgresql
 
             return itemStatement;
         }
+
+        /// <summary>
+        /// The build from join item.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public string BuildFromJoinItem(IFluentQueryFromItemModel item)
+        {
+            var itemStatement = string.Empty;
+            if (item == null)
+            {
+                return itemStatement;
+            }
+
+            var schema = string.IsNullOrEmpty(item.Schema) ? string.Empty : $"\"{item.Schema}\"";
+
+            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : $"\"{item.Alias}\"";
+
+            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"\"{item.Name}\"";
+
+            itemStatement = $"{item.Join.JoinType} JOIN {schema}{(!string.IsNullOrEmpty(schema) ? "." : string.Empty)}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : string.Empty)}";
+            itemStatement += $" ON {this.CreateAnd(item.Join.Where)} ";
+            return itemStatement;
+        }
         #endregion
 
         #region Update
@@ -126,7 +153,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string BuildColumnItemInUpdate(IFluentQueryUpdateItem item)
+        public string BuildColumnItemInUpdate(IFluentQueryUpdateItemModel item)
         {
             if (item == null)
             {
@@ -161,6 +188,20 @@ namespace FluentQuery.Postgresql
             return $"\"{item.Name}\"";
         }
 
+        /// <summary>
+        /// The build return id inserted row.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public string BuildReturnIdInsertedRow(IFluentQuerySelectItem item)
+        {
+            return $"returning {this.BuildColumnItem(item)}";
+        }
+
         #endregion
 
         #region  Where conditions
@@ -177,10 +218,25 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateEqualTo(IFluentQueryWhereItem whereItem) =>
-            whereItem == null && whereItem.ParameterList.Count == 0
-                ? string.Empty
-                : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "=", CreateParameter(whereItem.ParameterList[0]));
+        public string CreateEqualTo(IFluentQueryWhereItemModel whereItem)
+        {
+            if (whereItem == null)
+            {
+                return string.Empty;
+            }
+
+            if (whereItem.ParameterList?.Count != 0)
+            {
+                return SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "=", CreateParameter(whereItem.ParameterList[0]));
+            }
+
+            if (whereItem.Childrens != null && whereItem.Childrens.Count != 0)
+            {
+                return SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "=", this.BuildColumnItem(whereItem.Childrens[0].Column));
+            }
+
+            return string.Empty;
+        }
 
         // ReSharper disable once PossibleNullReferenceException
 
@@ -194,7 +250,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateNotEqualTo(IFluentQueryWhereItem whereItem) =>
+        public string CreateNotEqualTo(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -214,7 +270,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateGreaterThan(IFluentQueryWhereItem whereItem) =>
+        public string CreateGreaterThan(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -234,7 +290,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateGreaterOrEqual(IFluentQueryWhereItem whereItem) =>
+        public string CreateGreaterOrEqual(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -254,7 +310,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateLessThan(IFluentQueryWhereItem whereItem) =>
+        public string CreateLessThan(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -274,7 +330,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateLessOrEqual(IFluentQueryWhereItem whereItem) =>
+        public string CreateLessOrEqual(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -291,7 +347,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateNull(IFluentQueryWhereItem whereItem) =>
+        public string CreateNull(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null
                 ? string.Empty
                 : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "IS NULL");
@@ -305,7 +361,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateNotNull(IFluentQueryWhereItem whereItem) =>
+        public string CreateNotNull(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null
                 ? string.Empty
                 : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "IS NOT NULL");
@@ -319,7 +375,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateEmpty(IFluentQueryWhereItem whereItem) =>
+        public string CreateEmpty(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null
                 ? string.Empty
                 : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "=", "''");
@@ -333,7 +389,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateNotEmpty(IFluentQueryWhereItem whereItem) =>
+        public string CreateNotEmpty(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null
                 ? string.Empty
                 : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "<>", "''");
@@ -347,7 +403,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateBetween(IFluentQueryWhereItem whereItem)
+        public string CreateBetween(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem == null)
             {
@@ -378,7 +434,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateIn(IFluentQueryWhereItem whereItem)
+        public string CreateIn(IFluentQueryWhereItemModel whereItem)
         {
             // TODO: add childrens on this method
             if (whereItem == null)
@@ -417,7 +473,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateOr(IFluentQueryWhereItem whereItem)
+        public string CreateOr(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem == null)
             {
@@ -453,7 +509,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateAnd(IFluentQueryWhereItem whereItem)
+        public string CreateAnd(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem == null)
             {
@@ -508,7 +564,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateRaw(IFluentQueryWhereItem whereItem) => whereItem == null || string.IsNullOrEmpty(whereItem.RawClause) ? string.Empty : whereItem.RawClause;
+        public string CreateRaw(IFluentQueryWhereItemModel whereItem) => whereItem == null || string.IsNullOrEmpty(whereItem.RawClause) ? string.Empty : whereItem.RawClause;
 
         /// <summary>
         /// The create like.
@@ -519,7 +575,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateLike(IFluentQueryWhereItem whereItem)
+        public string CreateLike(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem?.AdditionalParams == null || whereItem.AdditionalParams.Count == 0)
             {
@@ -617,7 +673,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        private static string LikeBegin(FluentQueryStringCase stringComparisonEnum, string parameterName) => $"{BaseLikeStringCase(stringComparisonEnum, parameterName)} + '%'";
+        private static string LikeBegin(FluentQueryStringCase stringComparisonEnum, string parameterName) => $"{BaseLikeStringCase(stringComparisonEnum, parameterName)} || '%'";
 
         /// <summary>
         /// The like end.
@@ -631,7 +687,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        private static string LikeEnd(FluentQueryStringCase stringComparisonEnum, string parameterName) => $"'%' + {BaseLikeStringCase(stringComparisonEnum, parameterName)}";
+        private static string LikeEnd(FluentQueryStringCase stringComparisonEnum, string parameterName) => $"'%' || {BaseLikeStringCase(stringComparisonEnum, parameterName)}";
 
         /// <summary>
         /// The like any.
@@ -645,7 +701,7 @@ namespace FluentQuery.Postgresql
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        private static string LikeAny(FluentQueryStringCase stringComparisonEnum, string parameterName) => $"'%' + {BaseLikeStringCase(stringComparisonEnum, parameterName)} + '%'";
+        private static string LikeAny(FluentQueryStringCase stringComparisonEnum, string parameterName) => $"'%' || {BaseLikeStringCase(stringComparisonEnum, parameterName)} || '%'";
 
         /// <summary>
         /// The base like string case.
@@ -723,7 +779,7 @@ namespace FluentQuery.Postgresql
         {
             if (idField == null)
             {
-                idField = new FluentQuerySelectItem("c_id", "id", string.Empty);
+                idField = new FluentQuerySelectItemModel("id", string.Empty);
             }
 
             return $"COUNT({this.BuildColumnItem(idField)}) OVER() as countId ";

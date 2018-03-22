@@ -9,16 +9,11 @@
 
 namespace FluentQuery.SqlServer
 {
+    using System.Collections.Generic;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.From;
-
-    using global::FluentQuery.Core.Commands.Select;
-
-    using global::FluentQuery.Core.Commands.Update;
-
-    using global::FluentQuery.Core.Commands.Where;
-
+    using global::FluentQuery.Core.Commands.Interfaces;
+    using global::FluentQuery.Core.Commands.Model;
     using global::FluentQuery.Core.Dialects.Base;
     using global::FluentQuery.Core.Infrastructure.Constants;
     using global::FluentQuery.Core.Infrastructure.Enums;
@@ -43,7 +38,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateEqualTo(IFluentQueryWhereItem whereItem) =>
+        public string CreateEqualTo(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -63,7 +58,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateNotEqualTo(IFluentQueryWhereItem whereItem) => 
+        public string CreateNotEqualTo(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null && whereItem.ParameterList.Count == 0
             ? string.Empty
                 : SimpleInterpolation(
@@ -83,7 +78,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateGreaterThan(IFluentQueryWhereItem whereItem) => 
+        public string CreateGreaterThan(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -103,7 +98,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateGreaterOrEqual(IFluentQueryWhereItem whereItem) =>
+        public string CreateGreaterOrEqual(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(
@@ -122,7 +117,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateLessThan(IFluentQueryWhereItem whereItem) => 
+        public string CreateLessThan(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "<", InternalCreateParameter(whereItem.ParameterList[0]));
@@ -139,7 +134,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string CreateLessOrEqual(IFluentQueryWhereItem whereItem) => 
+        public string CreateLessOrEqual(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null && whereItem.ParameterList.Count == 0
                 ? string.Empty
                 : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "<=", InternalCreateParameter(whereItem.ParameterList[0]));
@@ -153,7 +148,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateNull(IFluentQueryWhereItem whereItem) => 
+        public string CreateNull(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null ? string.Empty : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "IS NULL");
 
         /// <summary>
@@ -165,7 +160,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateNotNull(IFluentQueryWhereItem whereItem) => 
+        public string CreateNotNull(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null ? string.Empty : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "IS NOT NULL");
 
         /// <summary>
@@ -177,7 +172,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateEmpty(IFluentQueryWhereItem whereItem) => 
+        public string CreateEmpty(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null ? string.Empty : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "=", "''");
 
         /// <summary>
@@ -189,7 +184,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateNotEmpty(IFluentQueryWhereItem whereItem) => 
+        public string CreateNotEmpty(IFluentQueryWhereItemModel whereItem) => 
             whereItem == null ? string.Empty : SimpleInterpolation(this.BuildColumnItem(whereItem.Column), "<>", "''");
 
         /// <summary>
@@ -201,7 +196,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateBetween(IFluentQueryWhereItem whereItem)
+        public string CreateBetween(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem == null)
             {
@@ -232,7 +227,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateIn(IFluentQueryWhereItem whereItem)
+        public string CreateIn(IFluentQueryWhereItemModel whereItem)
         {
             // TODO: add childrens on this method
             if (whereItem == null)
@@ -271,7 +266,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateOr(IFluentQueryWhereItem whereItem)
+        public string CreateOr(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem == null)
             {
@@ -307,7 +302,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateAnd(IFluentQueryWhereItem whereItem)
+        public string CreateAnd(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem == null)
             {
@@ -362,7 +357,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateRaw(IFluentQueryWhereItem whereItem) => whereItem == null || string.IsNullOrEmpty(whereItem.RawClause) ? string.Empty : whereItem.RawClause;
+        public string CreateRaw(IFluentQueryWhereItemModel whereItem) => whereItem == null || string.IsNullOrEmpty(whereItem.RawClause) ? string.Empty : whereItem.RawClause;
 
         /// <summary>
         /// The create like.
@@ -373,7 +368,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string CreateLike(IFluentQueryWhereItem whereItem)
+        public string CreateLike(IFluentQueryWhereItemModel whereItem)
         {
             if (whereItem?.AdditionalParams == null || whereItem.AdditionalParams.Count == 0)
             {
@@ -575,7 +570,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="T:System.String" />.
         /// </returns>
-        public string BuildColumnItemInUpdate(IFluentQueryUpdateItem item)
+        public string BuildColumnItemInUpdate(IFluentQueryUpdateItemModel item)
         {
             if (item == null)
             {
@@ -667,7 +662,7 @@ namespace FluentQuery.SqlServer
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        public string BuildFromItem(IFluentQueryFromItem item)
+        public string BuildFromItem(IFluentQueryFromItemModel item)
         {
             var itemStatement = string.Empty;
             if (item == null)
@@ -699,6 +694,37 @@ namespace FluentQuery.SqlServer
         {
             return $"[\"{item.Name}\"]";
         }
+
+        public string BuildReturnIdInsertedRow(IFluentQuerySelectItem item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string BuildOrderItem(KeyValuePair<IFluentQuerySelectItem, FluentQuerySortDirection> orderItem)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string BuildSortOrder(FluentQuerySortDirection order)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string BuildPaginate(long limit, long offset)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string CreatePaginateSelectField(IFluentQuerySelectItem idField)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string GenerateSelectQuery(FluentQuerySelectModel queryModel)
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

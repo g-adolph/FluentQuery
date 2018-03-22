@@ -11,13 +11,17 @@ namespace FluentQuery.Core.Infrastructure.Reflection
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Reflection;
 
-    using global::FluentQuery.Core.Commands.Select;
+    using global::FluentQuery.Core.Commands.Interfaces;
+    using global::FluentQuery.Core.Commands.Model;
 
     /// <summary>
     /// The reflection column type model.
     /// </summary>
+    [Serializable]
     public class ReflectionColumnTypeModel
     {
         /// <summary>
@@ -36,17 +40,51 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// <param name="columnName">
         /// The column name.
         /// </param>
+        /// <param name="columnAlias">
+        /// The column Alias.
+        /// </param>
         /// <param name="tableName">
         /// The table name.
+        /// </param>
+        /// <param name="tableAlias">
+        /// Table Alias
         /// </param>
         /// <param name="customAttributes">
         /// The custom attributes.
         /// </param>
-        public ReflectionColumnTypeModel(PropertyInfo columnProperty, string columnName, string tableName, List<Attribute> customAttributes)
+        public ReflectionColumnTypeModel(PropertyInfo columnProperty, string columnName, string columnAlias, string tableName, string tableAlias, IEnumerable<Attribute> customAttributes)
         {
             this.ColumnProperty = columnProperty;
-            this.ColumnSelectItem = new FluentQuerySelectItem(columnProperty.Name, columnName, tableName);
-            this.CustomAttributes = customAttributes;
+            this.CustomAttributes = this.ParseAttributes(customAttributes);
+            this.ColumnSelectItem = new FluentQuerySelectItemModel(columnProperty.Name, columnName, columnProperty.Name, tableName, tableAlias, null, this.CustomAttributes);
+        }
+
+        /// <summary>
+        /// The parse attributes.
+        /// </summary>
+        /// <param name="attributes">
+        /// The attributes.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Dictionary"/>.
+        /// </returns>
+        private Dictionary<string, object> ParseAttributes(IEnumerable<Attribute> attributes)
+        {
+            var dic = new Dictionary<string, object>();
+
+            foreach (var attribute in attributes)
+            {
+                if (attribute is KeyAttribute keyAttribute)
+                {
+                    dic.Add("key", true);
+                }
+                else if (attribute is ForeignKeyAttribute foreignKeyAttribute)
+                {
+                    dic.Add("foreignKey", new { property = foreignKeyAttribute.Name });
+                }
+            }
+
+            return dic;
         }
 
         /// <summary>
@@ -62,7 +100,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// <summary>
         /// Gets or sets the custom attributes.
         /// </summary>
-        private List<Attribute> CustomAttributes { get; set; }
+        private readonly Dictionary<string, object> CustomAttributes;
     }
 
 

@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using FluentQuery.Core.Commands.Where;
+
 using FluentQuery.SqlServer;
 using FluentQuery.Tests.Unit.Core.Entities;
 using Xunit;

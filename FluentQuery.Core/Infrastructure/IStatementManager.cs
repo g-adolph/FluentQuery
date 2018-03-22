@@ -22,7 +22,7 @@ namespace FluentQuery.Core.Infrastructure
         /// The build.
         /// </summary>
         /// <param name="commandsCreator">
-        /// The commands creator.
+        ///     The commands creator.
         /// </param>
         /// <returns>
         /// The <see cref="StringBuilder"/>.

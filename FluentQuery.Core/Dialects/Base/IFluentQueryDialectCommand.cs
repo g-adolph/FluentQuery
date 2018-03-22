@@ -11,13 +11,8 @@ namespace FluentQuery.Core.Dialects.Base
 {
     using System.Collections.Generic;
 
-    using global::FluentQuery.Core.Commands.From;
-
-    using global::FluentQuery.Core.Commands.Select;
-
-    using global::FluentQuery.Core.Commands.Update;
-
-    using global::FluentQuery.Core.Commands.Where;
+    using global::FluentQuery.Core.Commands.Interfaces;
+    using global::FluentQuery.Core.Commands.Model;
     using global::FluentQuery.Core.Infrastructure.Enums;
 
     /// <summary>
@@ -34,7 +29,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateEqualTo(IFluentQueryWhereItem whereItem);
+        string CreateEqualTo(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create not equal to.
@@ -45,7 +40,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateNotEqualTo(IFluentQueryWhereItem whereItem);
+        string CreateNotEqualTo(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create greater than.
@@ -56,7 +51,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateGreaterThan(IFluentQueryWhereItem whereItem);
+        string CreateGreaterThan(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create greater or equal.
@@ -67,7 +62,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateGreaterOrEqual(IFluentQueryWhereItem whereItem);
+        string CreateGreaterOrEqual(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create less than.
@@ -78,7 +73,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateLessThan(IFluentQueryWhereItem whereItem);
+        string CreateLessThan(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create less or equal.
@@ -89,7 +84,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateLessOrEqual(IFluentQueryWhereItem whereItem);
+        string CreateLessOrEqual(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create null.
@@ -100,7 +95,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateNull(IFluentQueryWhereItem whereItem);
+        string CreateNull(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create not null.
@@ -111,7 +106,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateNotNull(IFluentQueryWhereItem whereItem);
+        string CreateNotNull(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create empty.
@@ -122,7 +117,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateEmpty(IFluentQueryWhereItem whereItem);
+        string CreateEmpty(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create not empty.
@@ -133,7 +128,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateNotEmpty(IFluentQueryWhereItem whereItem);
+        string CreateNotEmpty(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create between.
@@ -144,7 +139,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateBetween(IFluentQueryWhereItem whereItem);
+        string CreateBetween(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create in.
@@ -155,7 +150,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateIn(IFluentQueryWhereItem whereItem);
+        string CreateIn(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create or.
@@ -166,7 +161,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateOr(IFluentQueryWhereItem whereItem);
+        string CreateOr(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create and.
@@ -177,7 +172,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateAnd(IFluentQueryWhereItem whereItem);
+        string CreateAnd(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create raw.
@@ -188,7 +183,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateRaw(IFluentQueryWhereItem whereItem);
+        string CreateRaw(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The create like.
@@ -199,7 +194,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string CreateLike(IFluentQueryWhereItem whereItem);
+        string CreateLike(IFluentQueryWhereItemModel whereItem);
 
         /// <summary>
         /// The build column item in select.
@@ -232,7 +227,9 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string BuildFromItem(IFluentQueryFromItem item);
+        string BuildFromItem(IFluentQueryFromItemModel item);
+
+        string BuildFromJoinItem(IFluentQueryFromItemModel item);
 
         /// <summary>
         /// The build column item in update.
@@ -243,7 +240,7 @@ namespace FluentQuery.Core.Dialects.Base
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
-        string BuildColumnItemInUpdate(IFluentQueryUpdateItem item);
+        string BuildColumnItemInUpdate(IFluentQueryUpdateItemModel item);
 
         /// <summary>
         /// The create parameter.
@@ -266,6 +263,17 @@ namespace FluentQuery.Core.Dialects.Base
         /// The <see cref="string"/>.
         /// </returns>
         string BuildInsertColumn(IFluentQuerySelectItem item);
+
+        /// <summary>
+        /// The build return id inserted row.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        string BuildReturnIdInsertedRow(IFluentQuerySelectItem item);
 
         /// <summary>
         /// The build order item.

@@ -18,19 +18,24 @@ namespace FluentQuery.Core.Infrastructure
     public class FluentQueryException : Exception
     {
         /// <summary>
-        /// The query wihtout select clause.
+        /// The query without select clause.
         /// </summary>
-        internal const string QueryWihtoutSelectClause = "You must define Select Fields";
+        internal const string QuerySelectWithoutClause = "You must define Select Fields";
 
         /// <summary>
-        /// The query wihtout from clause.
+        /// The query without from clause.
         /// </summary>
-        internal const string QueryWihtoutFromClause = "You must define From tables";
+        internal const string QueryWithoutTable = "You must define a table";
 
         /// <summary>
-        /// The query wihtout update table clause.
+        /// The query without update table clause.
         /// </summary>
-        internal const string QueryWihtoutUpdateTableClause = "You must defined Table in Update statement";
+        internal const string QueryUpdateWithoutTableClause = "You must defined Table in Update statement";
+
+        /// <summary>
+        /// The query update without columns to update.
+        /// </summary>
+        internal const string QueryUpdateWithoutColumnsToUpdate = "You must define some column to update";
 
         /// <inheritdoc />
         /// <summary>
@@ -40,8 +45,9 @@ namespace FluentQuery.Core.Infrastructure
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="FluentQueryException"/> class.
+        /// Initializes a new instance of the <see cref="T:FluentQuery.Core.Infrastructure.FluentQueryException" /> class.
         /// </summary>
         /// <param name="message">
         /// The message.
@@ -50,6 +56,4 @@ namespace FluentQuery.Core.Infrastructure
         {
         }
     }
-
-
 }

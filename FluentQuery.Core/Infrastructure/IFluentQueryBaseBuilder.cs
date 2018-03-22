@@ -9,8 +9,8 @@
 
 namespace FluentQuery.Core.Infrastructure
 {
-    using global::FluentQuery.Core.Commands;
-    using global::FluentQuery.Core.Commands.Parameters;
+    using global::FluentQuery.Core.Builder.Interfaces;
+    using global::FluentQuery.Core.Commands.Interfaces;
 
     /// <summary>
     /// The FluentQueryBaseBuilder interface.

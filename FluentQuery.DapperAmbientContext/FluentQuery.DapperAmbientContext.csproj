@@ -4,12 +4,23 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Dapper.AmbientContext" Version="1.4.0" />
+    <ProjectReference Include="..\..\Dapper.AmbientContext\src\Dapper.AmbientContext\Dapper.AmbientContext.csproj" />
+    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj" />
+    <Reference Include="Npgsql">
+      <HintPath>C:\Users\gusta\.nuget\packages\npgsql\3.2.7\lib\netstandard2.0\Npgsql.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

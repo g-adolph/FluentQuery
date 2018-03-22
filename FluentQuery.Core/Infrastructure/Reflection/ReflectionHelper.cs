@@ -11,7 +11,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
 {
     using System.Linq;
 
-    using global::FluentQuery.Core.Commands.Select;
+    using global::FluentQuery.Core.Commands.Interfaces;
 
     /// <summary>
     /// The reflection helper.
@@ -43,7 +43,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// </typeparam>
         public static void ProcessFrom<TTable>(IFluentQuerySelectModel queryModel)
         {
-            queryModel.From.Add(ReflectionInstance.FromCache<TTable>().TableFromItem);
+            queryModel.From.Add((IFluentQueryFromItemModel)ReflectionInstance.FromCache<TTable>().TableFromItem.Clone());
         }
 
         /// <summary>

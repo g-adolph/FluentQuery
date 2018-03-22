@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
-using FluentQuery.Core.Commands.Select;
+
 using FluentQuery.SqlServer;
 using Xunit;
 
 namespace FluentQuery.Tests.Unit.Core.Statements.Select
 {
+    using global::FluentQuery.Core.Commands.Model;
+
     [Collection("FluentQuery::Statement::Select::MethodTests")]
     public class FluentQuerySelectStatementWithoutTableTypeTests
     {
@@ -56,7 +58,7 @@ namespace FluentQuery.Tests.Unit.Core.Statements.Select
         [Fact]
         public void select_passing_FluentQuerySelectItem()
         {
-            var query = FluentQuery.Select(new FluentQuerySelectItem { Name = "Id", Alias = "TestId", TableAlias = "test" });
+            var query = FluentQuery.Select(new FluentQuerySelectItemModel { Name = "Id", Alias = "TestId", TableAlias = "test" });
 
             query.CommandQuery().Should().Be("SELECT [\"test\"].[\"Id\"] AS [\"TestId\"]");
         }

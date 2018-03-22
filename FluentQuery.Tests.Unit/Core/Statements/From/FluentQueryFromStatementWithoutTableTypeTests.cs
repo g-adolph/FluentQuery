@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
-using FluentQuery.Core.Commands.From;
+
 using FluentQuery.SqlServer;
 using Xunit;
 
 namespace FluentQuery.Tests.Unit.Core.Statements.From
 {
+    using global::FluentQuery.Core.Commands.Model;
+
     [Collection("FluentQuery::Statement::From::MethodTests")]
     public class FluentQueryFromStatementWithoutTableTypeTests
     {
@@ -43,7 +45,7 @@ namespace FluentQuery.Tests.Unit.Core.Statements.From
         [Fact]
         public void from_passing_FluentQueryFromItem()
         {
-            var query = FluentQuery.Select().From(FluentQueryFromItem.CreateFromItem(name: "Users", alias: "aliasTable", schema: "dbo"));
+            var query = FluentQuery.Select().From(FluentQueryFromItemModel.CreateFromItem(name: "Users", alias: "aliasTable", schema: "dbo"));
 
             query.CommandQuery().Trim()
                 .Should().Be("FROM [\"dbo\"].[\"Users\"] AS [\"aliasTable\"]");
