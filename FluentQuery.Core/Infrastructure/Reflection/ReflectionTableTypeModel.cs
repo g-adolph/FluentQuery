@@ -30,21 +30,25 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// <summary>
         /// Initializes a new instance of the <see cref="ReflectionTableTypeModel"/> class.
         /// </summary>
-        /// <param name="id">
-        /// The id.
-        /// </param>
         /// <param name="tableName">
         /// The table name.
         /// </param>
         /// <param name="tableAlias">
-        /// The table Alias.
+        /// The table alias.
+        /// </param>
+        /// <param name="tableSchema">
+        /// The table schema.
         /// </param>
         /// <param name="customAttributes">
         /// The custom attributes.
         /// </param>
-        public ReflectionTableTypeModel(string id, string tableName,string tableAlias, List<Attribute> customAttributes)
+        public ReflectionTableTypeModel(
+            string tableName,
+            string tableAlias,
+            string tableSchema,
+            List<Attribute> customAttributes)
         {
-            this.TableFromItem = FluentQueryFromItemModel.CreateFromItem(id, tableAlias, tableName);
+            this.TableFromItem = FluentQueryFromItemModel.CreateFromItem(tableName, tableAlias, tableSchema);
             this.CustomAttributes = customAttributes;
         }
         

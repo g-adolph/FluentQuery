@@ -192,16 +192,42 @@ namespace FluentQuery.Core.Builder
         /// <returns>
         /// The <see cref="T:FluentQuery.Core.Builder.Select.IFluentQueryJoinStatementBuilder"/>.
         /// </returns>
-        public IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> Join<TTableJoin>(Expression<Func<TTableJoin, object>> column, string joinType)
+        public IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> Join<TTableJoin>(Expression<Func<TTableJoin, object>> column, string joinType )
         {
             this.From<TTableJoin>();
             var lastFromTable = this.queryModel.From.Last();
-
+            
             lastFromTable.Join = new FluentQueryJoinItemModel
             {
                 JoinType = joinType,
                 Where = new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.And, ExpressionResult.ResolveSelect(column))
             };
+
+            return new FluentQueryWhereItemBuilder<IFluentQuerySelectBuilder, FluentQuerySelectModel>(this, lastFromTable.Join.Where);
+        }
+
+        /// <summary>
+        /// The join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="joinType">
+        /// The join type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        public IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> Join(FluentQuerySelectItemModel column, string joinType)
+        {
+            this.From(column.TableName, column.TableSchema, column.TableAlias);
+            var lastFromTable = this.queryModel.From.Last();
+
+            lastFromTable.Join = new FluentQueryJoinItemModel
+                                     {
+                                         JoinType = joinType,
+                                         Where = new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.And, column)
+                                     };
 
             return new FluentQueryWhereItemBuilder<IFluentQuerySelectBuilder, FluentQuerySelectModel>(this, lastFromTable.Join.Where);
         }
@@ -224,6 +250,21 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <summary>
+        /// The inner join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        public IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> InnerJoin(
+            FluentQuerySelectItemModel column)
+        {
+            return this.Join(column, "INNER");
+        }
+
+        /// <summary>
         /// The left join.
         /// </summary>
         /// <param name="column">
@@ -236,6 +277,21 @@ namespace FluentQuery.Core.Builder
         /// </returns>
         public IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> LeftJoin<TTableJoin>(
             Expression<Func<TTableJoin, object>> column)
+        {
+            return this.Join(column, "LEFT");
+        }
+
+        /// <summary>
+        /// The left join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        public IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> LeftJoin(
+            FluentQuerySelectItemModel column)
         {
             return this.Join(column, "LEFT");
         }

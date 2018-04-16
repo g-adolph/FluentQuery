@@ -117,6 +117,7 @@ namespace FluentQuery.Core.Commands.Model
             return new FluentQueryFromItemModel(name, alias, schema);
         }
 
+        /// <inheritdoc />
         public object Clone()
         {
             return this.MemberwiseClone();

@@ -147,7 +147,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
             var tableAttribute = (TableAttribute)attributes?.FirstOrDefault(t => t is TableAttribute);
 
             var tableTypeModel =
-                new ReflectionTableTypeModel(tableName, tableName, tableName, attributes);
+                new ReflectionTableTypeModel(tableName, tableName, null, attributes);
 
             if (tableAttribute == null)
             {
@@ -158,8 +158,8 @@ namespace FluentQuery.Core.Infrastructure.Reflection
             tableTypeModel.TableFromItem.Schema = tableAttribute.Schema ?? tableTypeModel.TableFromItem.Schema;
 
             return tableTypeModel;
-
         }
+
         #endregion
 
         /// <summary>

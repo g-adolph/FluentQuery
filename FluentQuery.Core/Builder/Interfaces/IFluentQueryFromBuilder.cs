@@ -13,6 +13,7 @@ namespace FluentQuery.Core.Builder.Interfaces
     using System.Linq.Expressions;
 
     using global::FluentQuery.Core.Commands.Interfaces;
+    using global::FluentQuery.Core.Commands.Model;
 
     /// <summary>
     /// The FluentQueryFromCommandBuilder interface.
@@ -84,11 +85,76 @@ namespace FluentQuery.Core.Builder.Interfaces
         IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> Join<TTableJoin>(
             Expression<Func<TTableJoin, object>> column, string joinType);
 
+        /// <summary>
+        /// The join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="joinType">
+        /// The join type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> Join(
+            FluentQuerySelectItemModel column, string joinType);
+
+        /// <summary>
+        /// The inner join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTableJoin">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
         IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> InnerJoin<TTableJoin>(
             Expression<Func<TTableJoin, object>> column);
 
+        /// <summary>
+        /// The inner join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTableJoin">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> InnerJoin(
+            FluentQuerySelectItemModel column);
+
+        /// <summary>
+        /// The left join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTableJoin">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
         IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> LeftJoin<TTableJoin>(
             Expression<Func<TTableJoin, object>> column);
+
+        /// <summary>
+        /// The left join.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <typeparam name="TTableJoin">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
+        /// </returns>
+        IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> LeftJoin(
+            FluentQuerySelectItemModel column);
     }
 
     /// <summary>

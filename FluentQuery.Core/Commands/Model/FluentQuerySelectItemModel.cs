@@ -126,7 +126,7 @@ namespace FluentQuery.Core.Commands.Model
         /// <param name="tableSchema">
         /// The table Schema.
         /// </param>
-        public FluentQuerySelectItemModel(string name, string alias, string tableName, string tableAlias, string tableSchema)
+        public FluentQuerySelectItemModel(string name, string alias, string tableName, string tableAlias, string tableSchema = null)
         {
             this.Id = name;
             this.Name = name;
