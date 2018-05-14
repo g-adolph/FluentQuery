@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 // ReSharper disable once CheckNamespace
-namespace FluentQuery
+namespace FluentQuery.Core
 {
     using global::FluentQuery.Core.Builder;
     using global::FluentQuery.Core.Builder.Interfaces;

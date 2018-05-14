@@ -13,6 +13,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
     using System.Reflection;
 
     using global::FluentQuery.Core.Commands.Interfaces;
@@ -70,6 +71,11 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// </returns>
         private Dictionary<string, object> ParseAttributes(IEnumerable<Attribute> attributes)
         {
+            if (attributes == null || !attributes.Any())
+            {
+                return new Dictionary<string, object>();
+            }
+
             var dic = new Dictionary<string, object>();
 
             foreach (var attribute in attributes)

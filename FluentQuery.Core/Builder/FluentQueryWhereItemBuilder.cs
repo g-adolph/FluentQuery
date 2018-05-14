@@ -579,7 +579,6 @@ namespace FluentQuery.Core.Builder
         /// </returns>
         public TStatementBuilder Like(object value, string customComparison)
         {
-            var tuple = this.parentQueryBuilder.GetQueryModel().Parameters.Add(value);
             var item = new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.Like)
             {
                 AdditionalParams = new Dictionary<string, object>
@@ -587,7 +586,7 @@ namespace FluentQuery.Core.Builder
                     { FluentQueryLikeConstants.CustomComparison, customComparison }
                 }
             };
-            item.ParameterList.Add(tuple.Item1);
+            item.ParameterList.Add(this.parentQueryBuilder.GetQueryModel().Parameters.Add(value).Key);
 
             this.whereItem.AddChildren(item);
 
@@ -635,8 +634,7 @@ namespace FluentQuery.Core.Builder
         private TStatementBuilder BaseComparison(object value, EnumFluentQueryWhereOperators enumFluentQueryWhereOperators)
         {
             var item = new FluentQueryWhereItemModel(enumFluentQueryWhereOperators);
-            var tuple = this.parentQueryBuilder.GetQueryModel().Parameters.Add(value);
-            item.ParameterList.Add(tuple.Item1);
+            item.ParameterList.Add(this.parentQueryBuilder.GetQueryModel().Parameters.Add(value).Key);
             item.Column = this.whereItem.Column;
             this.whereItem.AddChildren(item);
             return this.parentQueryBuilder;
@@ -678,10 +676,8 @@ namespace FluentQuery.Core.Builder
         private TStatementBuilder BaseBetween(object begin, object end)
         {
             var item = new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.Between);
-            var tupleBegin = this.parentQueryBuilder.GetQueryModel().Parameters.Add(begin);
-            var tupleEnd = this.parentQueryBuilder.GetQueryModel().Parameters.Add(end);
-            item.ParameterList.Add(tupleBegin.Item1);
-            item.ParameterList.Add(tupleEnd.Item1);
+            item.ParameterList.Add(this.parentQueryBuilder.GetQueryModel().Parameters.Add(begin).Key);
+            item.ParameterList.Add(this.parentQueryBuilder.GetQueryModel().Parameters.Add(end).Key);
             item.Column = this.whereItem.Column;
             this.whereItem.AddChildren(item);
             return this.parentQueryBuilder;
@@ -733,7 +729,6 @@ namespace FluentQuery.Core.Builder
             FluentQueryLikeComparison comparison = FluentQueryLikeComparison.Full,
             FluentQueryStringCase stringComparison = FluentQueryStringCase.None)
         {
-            var tuple = this.parentQueryBuilder.GetQueryModel().Parameters.Add(value);
             var item = new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.Like)
             {
                 AdditionalParams = new Dictionary<string, object>
@@ -743,7 +738,7 @@ namespace FluentQuery.Core.Builder
                 },
                 Column = this.whereItem.Column
             };
-            item.ParameterList.Add(tuple.Item1);
+            item.ParameterList.Add(this.parentQueryBuilder.GetQueryModel().Parameters.Add(value).Key);
 
             this.whereItem.AddChildren(item);
 

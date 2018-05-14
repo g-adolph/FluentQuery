@@ -229,6 +229,15 @@ namespace FluentQuery.Core.Dialects.Base
         /// </returns>
         string BuildFromItem(IFluentQueryFromItemModel item);
 
+        /// <summary>
+        /// The build from join item.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         string BuildFromJoinItem(IFluentQueryFromItemModel item);
 
         /// <summary>

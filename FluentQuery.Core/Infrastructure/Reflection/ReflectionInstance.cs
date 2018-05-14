@@ -18,6 +18,8 @@ namespace FluentQuery.Core.Infrastructure.Reflection
 
     using global::FluentQuery.Core.Commands.Interfaces;
 
+    using Newtonsoft.Json.Linq;
+
     /// <summary>
     /// The reflection instance.
     /// </summary>
@@ -85,7 +87,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
             }
 
             typeModel.Columns = new List<ReflectionColumnTypeModel>();
-            foreach (var property in properties)
+            foreach (var property in properties.Where(prop => IsSimpleType(prop.PropertyType)))
             {
                 typeModel.Columns.Add(property.ConvertPropertyToReflectionColumn(typeModel.TableFromItem));
             }
@@ -101,6 +103,26 @@ namespace FluentQuery.Core.Infrastructure.Reflection
                         return right.IsPrimaryKey() ? 1 : string.Compare(left.ColumnProperty.Name, right.ColumnProperty.Name, StringComparison.Ordinal);
                     });
         }
+
+        /// <summary>
+        /// The is simple type.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool IsSimpleType(Type type) => type.IsPrimitive
+                   || new Type[]
+                          {
+                              typeof(Enum),
+                              typeof(string),
+                              typeof(decimal),
+                              typeof(DateTime),
+                              typeof(DateTimeOffset), typeof(TimeSpan), typeof(Guid),typeof(JObject)
+                          }.Contains(type) || Convert.GetTypeCode(type) != TypeCode.Object
+                   || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) && IsSimpleType(type.GetGenericArguments()[0]));
 
         /// <summary>
         /// The convert property to reflection column.

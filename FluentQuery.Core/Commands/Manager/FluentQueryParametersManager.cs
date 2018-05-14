@@ -54,7 +54,11 @@ namespace FluentQuery.Core.Commands.Manager
         /// </returns>
         public object Get(object key)
         {
-            if (key == null) return null;
+            if (key == null)
+            {
+                return null;
+            }
+
             return this.Parameters.TryGetValue(key.ToString(), out var value) ? value : null;
         }
 
@@ -67,9 +71,9 @@ namespace FluentQuery.Core.Commands.Manager
         /// <returns>
         /// The <see cref="Tuple"/>.
         /// </returns>
-        public Tuple<string, object> Add(object value)
+        public (string Key, object Value) Add(object value)
         {
-            return Tuple.Create((this.Parameters.Count + 1).ToString(), this.Parameters.TryAdd((this.Parameters.Count + 1).ToString(), value) ? value : null);
+            return ((this.Parameters.Count + 1).ToString(), (this.Parameters.TryAdd((this.Parameters.Count + 1).ToString(), value) ? value : null));
         }
 
         /// <summary>

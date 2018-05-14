@@ -34,11 +34,10 @@ namespace FluentQuery.Core.Builder
         /// <inheritdoc />
         public IFluentQueryUpdateBuilder Update(string columnName, string tableName, object value)
         {
-            var tupleResult = this.queryModel.Parameters.Add(value);
             this.queryModel.Update.Add(new FluentQueryUpdateItemModel
             {
                 Column = new FluentQuerySelectItemModel(columnName, tableName),
-                ParameterName = tupleResult.Item1
+                ParameterName = this.queryModel.Parameters.Add(value).Key
             });
             this.queryModel.From.Add(FluentQueryFromItemModel.CreateFromItem(tableName));
             return this;
@@ -79,7 +78,7 @@ namespace FluentQuery.Core.Builder
                     new FluentQueryUpdateItemModel
                     {
                         Column = column.ColumnSelectItem,
-                        ParameterName = this.queryModel.Parameters.Add(column.ColumnProperty.GetValue(obj, null)).Item1
+                        ParameterName = this.queryModel.Parameters.Add(column.ColumnProperty.GetValue(obj, null)).Key
                     });
             }
 
@@ -92,12 +91,11 @@ namespace FluentQuery.Core.Builder
         public IFluentQueryUpdateBuilder Update<TEntity>(Expression<Func<TEntity, object>> column, object value)
         {
             var tableType = ReflectionInstance.FromCache<TEntity>();
-
-            var tuple = this.queryModel.Parameters.Add(value);
+            
             this.queryModel.Update.Add(new FluentQueryUpdateItemModel
             {
                 Column = ExpressionResult.ResolveSelect(column),
-                ParameterName = tuple.Item1
+                ParameterName = this.queryModel.Parameters.Add(value).Key
             });
 
             this.queryModel.From.Add(tableType.TableFromItem);
@@ -137,7 +135,7 @@ namespace FluentQuery.Core.Builder
                     new FluentQueryUpdateItemModel
                     {
                         Column = column.ColumnSelectItem,
-                        ParameterName = this.queryModel.Parameters.Add(column.ColumnProperty.GetValue(obj, null)).Item1
+                        ParameterName = this.queryModel.Parameters.Add(column.ColumnProperty.GetValue(obj, null)).Key
                     });
             }
             this.queryModel.From.Add(tableColumnType.TableFromItem);

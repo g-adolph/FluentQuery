@@ -164,15 +164,15 @@ namespace FluentQuery.Postgresql
 
             if (item.ColumnUpdate != null)
             {
-                updateItem = $"{this.BuildColumnItem(item.Column)} = {this.BuildColumnItem(item.ColumnUpdate)}";
+                updateItem = $"{item.Column.Name} = {item.ColumnUpdate.Name}";
             }
             else if (!string.IsNullOrEmpty(item.ParameterName))
             {
-                updateItem = $"{this.BuildColumnItem(item.Column)} = {CreateParameter(item.ParameterName)}";
+                updateItem = $"{item.Column.Name} = {CreateParameter(item.ParameterName)}";
             }
             else if (!string.IsNullOrEmpty(item.RawClause))
             {
-                updateItem = $"{this.BuildColumnItem(item.Column)} = {item.RawClause}";
+                updateItem = $"{item.Column.Name} = {item.RawClause}";
             }
 
             return updateItem;

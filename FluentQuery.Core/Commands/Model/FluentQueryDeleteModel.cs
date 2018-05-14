@@ -84,14 +84,14 @@ namespace FluentQuery.Core.Commands.Model
             var idColumn = tableModel.Columns.FirstOrDefault(column => column.ColumnSelectItem.Name.ToLower() == "id");
             if (idColumn != null)
             {
-                var deleteTuple = this.Parameters.Add(idColumn.ColumnProperty.GetValue(entity, null));
+                var deletedParameterKey = this.Parameters.Add(idColumn.ColumnProperty.GetValue(entity, null)).Key;
                 columnsModel.Add(
                     new FluentQueryColumnItemModel(
                         idColumn.ColumnSelectItem,
-                        deleteTuple.Item1));
+                        deletedParameterKey));
 
                 var equalWhereModel = new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.EqualTo, idColumn.ColumnSelectItem);
-                equalWhereModel.ParameterList.Add(deleteTuple.Item1);
+                equalWhereModel.ParameterList.Add(deletedParameterKey);
 
                 this.Where.AndAdd(idColumn.ColumnSelectItem).AddChildren(equalWhereModel);
             }

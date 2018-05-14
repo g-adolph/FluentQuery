@@ -70,33 +70,21 @@ namespace FluentQuery.Core.Commands.Model
                 return;
             }
 
-
             var tableModel = ReflectionInstance.FromCache(typeof(TEntityType));
 
             var columnsModel = new List<FluentQueryColumnItemModel>();
             var columns = tableModel.Columns;
             if (this.Insert.ReturnId)
             {
-                columns = tableModel.Columns.Where(c => !ReflectionColumnHelper.IsPrimaryKey(c)).ToList();
+                columns = tableModel.Columns.Where(c => !c.IsPrimaryKey()).ToList();
             }
 
-            foreach (var column in columns)
+            foreach (var column in columns.Where(column => !column.IsForeignKey()))
             {
-                if (ReflectionColumnHelper.IsForeignKey(column))
-                {
-                    continue;
-                }
-
-                var insertTuple = this.Parameters.Add(column.ColumnProperty.GetValue(entity, null));
-                columnsModel.Add(
-                    new FluentQueryColumnItemModel(
-                        column.ColumnSelectItem,
-                        insertTuple.Item1));
+                columnsModel.Add(new FluentQueryColumnItemModel(column.ColumnSelectItem, this.Parameters.Add(column.ColumnProperty.GetValue(entity, null)).Key));
             }
 
             this.Insert.Add(new FluentQueryItemModel(tableModel, columnsModel));
         }
-
-        
     }
 }

@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 // ReSharper disable once CheckNamespace
-namespace FluentQuery
+namespace FluentQuery.Core
 {
     using System;
     using System.Linq.Expressions;

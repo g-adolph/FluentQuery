@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace FluentQuery.DapperAmbientContext
+namespace FluentQuery.Dapper
 {
     using System;
     using System.Collections.Concurrent;
@@ -292,24 +292,6 @@ namespace FluentQuery.DapperAmbientContext
             return await((IAmbientDbContextQueryProxy)context).QueryFirstAsync<TType>(query, parameters).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// The transform parameters.
-        /// </summary>
-        /// <param name="queryModelParameters">
-        /// The query model parameters.
-        /// </param>
-        /// <returns>
-        /// The <see cref="DynamicParameters"/>.
-        /// </returns>
-        public static DynamicParameters TransformParameters(ConcurrentDictionary<string, object> queryModelParameters)
-        {
-            var parameters = new DynamicParameters();
-            foreach (var queryModelParameter in queryModelParameters)
-            {
-                parameters.Add($"parameter{queryModelParameter.Key}", queryModelParameter.Value);
-            }
-
-            return parameters;
-        }
+        
     }
 }
