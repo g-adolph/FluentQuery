@@ -101,11 +101,11 @@ namespace FluentQuery.Postgresql
                 return itemStatement;
             }
 
-            var schema = string.IsNullOrEmpty(item.Schema) ? string.Empty : $"\"{item.Schema}\"";
+            var schema = string.IsNullOrEmpty(item.Schema) ? string.Empty : $"{item.Schema}";
 
             var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : $"\"{item.Alias}\"";
 
-            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"\"{item.Name}\"";
+            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"{item.Name}";
 
             itemStatement = $"{schema}{(!string.IsNullOrEmpty(schema) ? "." : string.Empty)}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : string.Empty)}";
 
