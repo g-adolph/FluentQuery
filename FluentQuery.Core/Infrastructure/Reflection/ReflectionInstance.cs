@@ -87,7 +87,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
             }
 
             typeModel.Columns = new List<ReflectionColumnTypeModel>();
-            foreach (var property in properties.Where(prop => IsSimpleType(prop.PropertyType)))
+            foreach (var property in properties.Where(WhereColumnsCondtions))
             {
                 typeModel.Columns.Add(property.ConvertPropertyToReflectionColumn(typeModel.TableFromItem));
             }
@@ -102,6 +102,21 @@ namespace FluentQuery.Core.Infrastructure.Reflection
 
                         return right.IsPrimaryKey() ? 1 : string.Compare(left.ColumnProperty.Name, right.ColumnProperty.Name, StringComparison.Ordinal);
                     });
+        }
+
+        private static bool WhereColumnsCondtions(PropertyInfo prop)
+        {
+            return IsSimpleType(prop.PropertyType) && !IsNotMapped(prop);
+        }
+
+        private static bool IsNotMapped(MemberInfo prop)
+        {
+            var attributes = prop.GetAllAttributesByMember();
+
+            var notMappedAttr = (NotMappedAttribute)attributes?.FirstOrDefault(t => t is NotMappedAttribute);
+
+            return notMappedAttr != null;
+
         }
 
         /// <summary>
