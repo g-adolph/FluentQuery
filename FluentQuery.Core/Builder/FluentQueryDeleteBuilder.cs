@@ -13,6 +13,7 @@ namespace FluentQuery.Core.Builder
     using System.Linq.Expressions;
 
     using global::FluentQuery.Core.Builder.Interfaces;
+    using global::FluentQuery.Core.Commands.Interfaces;
     using global::FluentQuery.Core.Commands.Model;
     using global::FluentQuery.Core.Infrastructure.Enums;
     using global::FluentQuery.Core.Infrastructure.Expression;
@@ -29,33 +30,15 @@ namespace FluentQuery.Core.Builder
         private readonly FluentQueryDeleteModel queryModel = new FluentQueryDeleteModel();
 
         /// <inheritdoc />
-        /// <summary>
-        /// The command query.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="string" />.
-        /// </returns>
         public string CommandQuery()
         {
             return this.queryModel.Build();
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// The parameters.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IFluentQueryParametersBuilder" />.
-        /// </returns>
         public IFluentQueryParametersBuilder Parameters() => new FluentQueryParametersBuilder(this.queryModel);
 
         /// <inheritdoc />
-        /// <summary>
-        /// The get query model.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="FluentQueryDeleteModel" />.
-        /// </returns>
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public FluentQueryDeleteModel GetQueryModel() => this.queryModel;
 
@@ -80,15 +63,6 @@ namespace FluentQuery.Core.Builder
         #region Where Statement
 
         /// <inheritdoc />
-        /// <summary>
-        /// The where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryDeleteBuilder" />.
-        /// </returns>
         public IFluentQueryDeleteBuilder Where(string clause)
         {
             this.queryModel.Where.AndAdd(clause);
@@ -96,15 +70,6 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// The where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryDeleteBuilder" />.
-        /// </returns>
         public IFluentQueryDeleteBuilder Where(params string[] clause)
         {
             this.queryModel.Where.AndAdd(clause);
@@ -112,15 +77,6 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// The or where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryDeleteBuilder" />.
-        /// </returns>
         public IFluentQueryDeleteBuilder OrWhere(params string[] clause)
         {
             this.queryModel.Where.OrAdd(clause);
@@ -128,15 +84,6 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// The or where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryDeleteBuilder" />.
-        /// </returns>
         public IFluentQueryDeleteBuilder OrWhere(string clause)
         {
             this.queryModel.Where.OrAdd(clause);
@@ -144,18 +91,6 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// The where.
-        /// </summary>
-        /// <param name="column">
-        /// The column.
-        /// </param>
-        /// <typeparam name="TTable">
-        /// Table Class
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="T:IFluentQueryWhereItemBuilder" />.
-        /// </returns>
         public IFluentQueryWhereItemBuilder<IFluentQueryDeleteBuilder> Where<TTable>(Expression<Func<TTable, object>> column)
         {
             var lastWhereClause = this.queryModel.Where.Last();
@@ -165,18 +100,15 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <inheritdoc />
-        /// <summary>
-        /// The or where.
-        /// </summary>
-        /// <param name="column">
-        /// The column.
-        /// </param>
-        /// <typeparam name="TTable">
-        /// Table Class
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="T:IFluentQueryWhereItemBuilder" />.
-        /// </returns>
+        public IFluentQueryWhereItemBuilder<IFluentQueryDeleteBuilder> Where(IFluentQuerySelectItem selectModel)
+        {
+            var lastWhereClause = this.queryModel.Where.Last();
+            return lastWhereClause != null && lastWhereClause.Operator == EnumFluentQueryWhereOperators.And
+                       ? new FluentQueryWhereItemBuilder<IFluentQueryDeleteBuilder, FluentQueryDeleteModel>(this, lastWhereClause.AddChildren(new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.And, selectModel)))
+                       : new FluentQueryWhereItemBuilder<IFluentQueryDeleteBuilder, FluentQueryDeleteModel>(this, this.queryModel.Where.AndAdd(selectModel));
+        }
+
+        /// <inheritdoc />
         public IFluentQueryWhereItemBuilder<IFluentQueryDeleteBuilder> OrWhere<TTable>(Expression<Func<TTable, object>> column)
         {
             var lastWhereClause = this.queryModel.Where.Last();

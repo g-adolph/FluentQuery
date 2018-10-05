@@ -142,46 +142,14 @@ namespace FluentQuery.Core.Builder
             return this;
         }
 
-        /// <summary>
-        /// The update.
-        /// </summary>
-        /// <param name="columnName">
-        /// The column name.
-        /// </param>
-        /// <param name="tableName">
-        /// The table name.
-        /// </param>
-        /// <param name="function">
-        /// The function.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryUpdateBuilder"/>.
-        /// </returns>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
+        /// <inheritdoc />
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public IFluentQueryUpdateBuilder Update(string columnName, string tableName, IFluentQueryFunctionItem function)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// The update.
-        /// </summary>
-        /// <param name="column">
-        /// The column.
-        /// </param>
-        /// <param name="function">
-        /// The function.
-        /// </param>
-        /// <typeparam name="TTable">
-        /// Table Class
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="IFluentQueryUpdateBuilder"/>.
-        /// </returns>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
+        /// <inheritdoc />
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
         public IFluentQueryUpdateBuilder Update<TTable>(Expression<Func<TTable, object>> column, IFluentQueryFunctionItem function)
         {
@@ -192,78 +160,35 @@ namespace FluentQuery.Core.Builder
 
         #region Where Statement
 
-        /// <summary>
-        /// The where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryUpdateBuilder"/>.
-        /// </returns>
+        /// <inheritdoc />
         public IFluentQueryUpdateBuilder Where(string clause)
         {
             this.queryModel.Where.AndAdd(clause);
             return this;
         }
 
-        /// <summary>
-        /// The where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryUpdateBuilder"/>.
-        /// </returns>
+        /// <inheritdoc />
         public IFluentQueryUpdateBuilder Where(params string[] clause)
         {
             this.queryModel.Where.AndAdd(clause);
             return this;
         }
 
-        /// <summary>
-        /// The or where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryUpdateBuilder"/>.
-        /// </returns>
+        /// <inheritdoc />
         public IFluentQueryUpdateBuilder OrWhere(params string[] clause)
         {
             this.queryModel.Where.OrAdd(clause);
             return this;
         }
 
-        /// <summary>
-        /// The or where.
-        /// </summary>
-        /// <param name="clause">
-        /// The clause.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IFluentQueryUpdateBuilder"/>.
-        /// </returns>
+        /// <inheritdoc />
         public IFluentQueryUpdateBuilder OrWhere(string clause)
         {
             this.queryModel.Where.OrAdd(clause);
             return this;
         }
 
-        /// <summary>
-        /// The where.
-        /// </summary>
-        /// <param name="column">
-        /// The column.
-        /// </param>
-        /// <typeparam name="TTable">
-        /// Table Class
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
-        /// </returns>
+        /// <inheritdoc />
         public IFluentQueryWhereItemBuilder<IFluentQueryUpdateBuilder> Where<TTable>(Expression<Func<TTable, object>> column)
         {
             var lastWhereClause = this.queryModel.Where.Last();
@@ -272,18 +197,16 @@ namespace FluentQuery.Core.Builder
                 : new FluentQueryWhereItemBuilder<IFluentQueryUpdateBuilder, FluentQueryUpdateModel>(this, this.queryModel.Where.AndAdd(column));
         }
 
-        /// <summary>
-        /// The or where.
-        /// </summary>
-        /// <param name="column">
-        /// The column.
-        /// </param>
-        /// <typeparam name="TTable">
-        /// Table Class
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="IFluentQueryWhereItemBuilder"/>.
-        /// </returns>
+        /// <inheritdoc />
+        public IFluentQueryWhereItemBuilder<IFluentQueryUpdateBuilder> Where(IFluentQuerySelectItem selectModel)
+        {
+            var lastWhereClause = this.queryModel.Where.Last();
+            return lastWhereClause != null && lastWhereClause.Operator == EnumFluentQueryWhereOperators.And
+                       ? new FluentQueryWhereItemBuilder<IFluentQueryUpdateBuilder, FluentQueryUpdateModel>(this, lastWhereClause.AddChildren(new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.And, selectModel)))
+                       : new FluentQueryWhereItemBuilder<IFluentQueryUpdateBuilder, FluentQueryUpdateModel>(this, this.queryModel.Where.AndAdd(selectModel));
+        }
+
+        /// <inheritdoc />
         public IFluentQueryWhereItemBuilder<IFluentQueryUpdateBuilder> OrWhere<TTable>(Expression<Func<TTable, object>> column)
         {
             var lastWhereClause = this.queryModel.Where.Last();
@@ -294,30 +217,14 @@ namespace FluentQuery.Core.Builder
 
         #endregion
 
-        /// <summary>
-        /// The parameters.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IFluentQueryParametersBuilder"/>.
-        /// </returns>
+        /// <inheritdoc />
         public IFluentQueryParametersBuilder Parameters() => new FluentQueryParametersBuilder(this.queryModel);
 
-        /// <summary>
-        /// The get query model.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="FluentQueryUpdateModel"/>.
-        /// </returns>
+        /// <inheritdoc />
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public FluentQueryUpdateModel GetQueryModel() => this.queryModel;
 
         /// <inheritdoc />
-        /// <summary>
-        /// The command query.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="T:System.String" />.
-        /// </returns>
         public string CommandQuery() => this.queryModel.Build();
     }
 }

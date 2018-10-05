@@ -12,6 +12,8 @@ namespace FluentQuery.Core.Builder.Interfaces
     using System;
     using System.Linq.Expressions;
 
+    using global::FluentQuery.Core.Commands.Interfaces;
+
     /// <summary>
     /// The FluentQueryWhereCommandBuilder interface.
     /// </summary>
@@ -55,6 +57,17 @@ namespace FluentQuery.Core.Builder.Interfaces
         /// The <see cref="T:IFluentQueryWhereItemBuilder`TStatementBuilder"/>.
         /// </returns>
         IFluentQueryWhereItemBuilder<TStatementBuilder> Where<TTable>(Expression<Func<TTable, object>> column);
+
+        /// <summary>
+        /// The where.
+        /// </summary>
+        /// <param name="selectModel">
+        /// The select Model.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T:IFluentQueryWhereItemBuilder`TStatementBuilder"/>.
+        /// </returns>
+        IFluentQueryWhereItemBuilder<TStatementBuilder> Where(IFluentQuerySelectItem selectModel);
 
         /// <summary>
         /// The or where.
