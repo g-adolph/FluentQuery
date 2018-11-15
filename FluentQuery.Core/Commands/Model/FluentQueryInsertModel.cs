@@ -9,6 +9,7 @@
 
 namespace FluentQuery.Core.Commands.Model
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -81,7 +82,32 @@ namespace FluentQuery.Core.Commands.Model
 
             foreach (var column in columns.Where(column => !column.IsForeignKey()))
             {
-                columnsModel.Add(new FluentQueryColumnItemModel(column.ColumnSelectItem, this.Parameters.Add(column.ColumnProperty.GetValue(entity, null)).Key));
+                if (column.ColumnProperty.PropertyType == typeof(DateTime))
+                {
+                    var date = DateTime.SpecifyKind((DateTime)column.ColumnProperty.GetValue(entity, null), DateTimeKind.Local);
+                    columnsModel.Add(new FluentQueryColumnItemModel(column.ColumnSelectItem, this.Parameters.Add(date).Key));
+                }
+                else if (column.ColumnProperty.PropertyType == typeof(DateTime?))
+                {
+                    if (column.ColumnProperty.GetValue(entity, null) != null)
+                    {
+                        var date = DateTime.SpecifyKind(
+                            (DateTime)column.ColumnProperty.GetValue(entity, null),
+                            DateTimeKind.Local);
+                        columnsModel.Add(
+                            new FluentQueryColumnItemModel(column.ColumnSelectItem, this.Parameters.Add(date).Key));
+                    }
+                    else
+                    {
+                        columnsModel.Add(
+                            new FluentQueryColumnItemModel(column.ColumnSelectItem, this.Parameters.Add(column.ColumnProperty.GetValue(entity, null)).Key));
+                    }
+                }
+                else
+                {
+                    columnsModel.Add(
+                        new FluentQueryColumnItemModel(column.ColumnSelectItem, this.Parameters.Add(column.ColumnProperty.GetValue(entity, null)).Key));
+                }
             }
 
             this.Insert.Add(new FluentQueryItemModel(tableModel, columnsModel));
