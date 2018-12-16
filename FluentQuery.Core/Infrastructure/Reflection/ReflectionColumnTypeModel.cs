@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+// ReSharper disable StyleCop.SA1201
+// ReSharper disable InconsistentNaming
 namespace FluentQuery.Core.Infrastructure.Reflection
 {
     using System;
@@ -108,6 +110,4 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// </summary>
         private readonly Dictionary<string, object> CustomAttributes;
     }
-
-
 }

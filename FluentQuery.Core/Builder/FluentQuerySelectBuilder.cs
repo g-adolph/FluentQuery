@@ -66,7 +66,7 @@ namespace FluentQuery.Core.Builder
         /// <inheritdoc />
         public IFluentQuerySelectBuilder Select(Func<FluentQuerySelectItemModel> column)
         {
-            this.queryModel.Select.Add(column.Invoke());
+            this.queryModel.Select.Add(column());
             return this;
         }
 
@@ -227,7 +227,7 @@ namespace FluentQuery.Core.Builder
         /// </returns>
         public IFluentQuerySelectBuilder Order(Func<FluentQuerySelectItemModel> column, FluentQuerySortDirection direction)
         {
-            this.queryModel.Order.Add(column.Invoke(), direction);
+            this.queryModel.Order.Add(column(), direction);
 
             return this;
         }

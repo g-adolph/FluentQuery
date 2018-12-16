@@ -87,7 +87,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
             }
 
             typeModel.Columns = new List<ReflectionColumnTypeModel>();
-            foreach (var property in properties.Where(WhereColumnsCondtions))
+            foreach (var property in properties.Where(WhereColumnsConditions))
             {
                 typeModel.Columns.Add(property.ConvertPropertyToReflectionColumn(typeModel.TableFromItem));
             }
@@ -104,11 +104,29 @@ namespace FluentQuery.Core.Infrastructure.Reflection
                     });
         }
 
-        private static bool WhereColumnsCondtions(PropertyInfo prop)
+        /// <summary>
+        /// The where columns conditions.
+        /// </summary>
+        /// <param name="prop">
+        /// The prop.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool WhereColumnsConditions(PropertyInfo prop)
         {
             return IsSimpleType(prop.PropertyType) && !IsNotMapped(prop);
         }
 
+        /// <summary>
+        /// The is not mapped.
+        /// </summary>
+        /// <param name="prop">
+        /// The prop.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         private static bool IsNotMapped(MemberInfo prop)
         {
             var attributes = prop.GetAllAttributesByMember();
@@ -116,7 +134,6 @@ namespace FluentQuery.Core.Infrastructure.Reflection
             var notMappedAttr = (NotMappedAttribute)attributes?.FirstOrDefault(t => t is NotMappedAttribute);
 
             return notMappedAttr != null;
-
         }
 
         /// <summary>
@@ -129,13 +146,13 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         /// The <see cref="bool"/>.
         /// </returns>
         private static bool IsSimpleType(Type type) => type.IsPrimitive
-                   || new Type[]
+                   || new[]
                           {
                               typeof(Enum),
                               typeof(string),
                               typeof(decimal),
                               typeof(DateTime),
-                              typeof(DateTimeOffset), typeof(TimeSpan), typeof(Guid),typeof(JObject)
+                              typeof(DateTimeOffset), typeof(TimeSpan), typeof(Guid), typeof(JObject)
                           }.Contains(type) || Convert.GetTypeCode(type) != TypeCode.Object
                    || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) && IsSimpleType(type.GetGenericArguments()[0]));
 
@@ -162,7 +179,6 @@ namespace FluentQuery.Core.Infrastructure.Reflection
 
             // todo: use conventions to change name,alias,tableAlias;
             // todo: Create DataAnnotation and parameter to set this;
-
             return columnTypeModel;
         }
 
@@ -200,67 +216,23 @@ namespace FluentQuery.Core.Infrastructure.Reflection
         #endregion
 
         /// <summary>
-        /// The get attributes of member or declaring type.
+        /// The get all attributes by member.
         /// </summary>
         /// <param name="memberInfo">
         /// The member info.
         /// </param>
-        /// <param name="attributes">
-        /// The attributes.
-        /// </param>
         /// <returns>
-        /// The <see cref="T:List"/>.
-        /// </returns>
-        private static List<object> GetAttributesOfMemberOrDeclaringType(
-            this MemberInfo memberInfo, IEnumerable<Type> attributes)
-        {
-            var attributeList = new List<object>();
-            foreach (var attribute in attributes)
-            {
-                // Get attribute on the member
-                object attributeAux;
-                if (memberInfo.IsDefined(attribute, true))
-                {
-                    attributeAux = memberInfo.GetCustomAttributes(attribute, true).First();
-                    if (attributeAux != null)
-                    {
-                        attributeList.Add(attributeAux);
-                    }
-                }
-                else if (memberInfo.DeclaringType != null && memberInfo.DeclaringType.IsDefined(attribute, true))
-                {
-                    // Get attribute from class
-                    attributeAux = memberInfo.DeclaringType.GetCustomAttributes(attribute, true).First();
-                    if (attributeAux != null)
-                    {
-                        attributeList.Add(attributeAux);
-                    }
-                }
-            }
-
-            return attributeList;
-        }
-
-        /// <summary>
-        /// The get single attribute of member or declaring type or null.
-        /// </summary>
-        /// <param name="memberInfo">
-        /// The member info.
-        /// </param>
-        /// <typeparam name="TAttribute">
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="TAttribute"/>.
+        /// The <see cref="List"/>.
         /// </returns>
         private static List<Attribute> GetAllAttributesByMember(this MemberInfo memberInfo)
         {
-            //Get attribute on the member
+            // Get attribute on the member
             if (memberInfo.IsDefined(typeof(Attribute), true))
             {
                 return memberInfo.GetCustomAttributes(typeof(Attribute), true).Cast<Attribute>().ToList();
             }
 
-            //Get attribute from class
+            // Get attribute from class
             if (memberInfo.DeclaringType != null && memberInfo.DeclaringType.IsDefined(typeof(Attribute), true))
             {
                 return memberInfo.DeclaringType.GetCustomAttributes(typeof(Attribute), true).Cast<Attribute>().ToList();

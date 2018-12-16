@@ -78,11 +78,6 @@ namespace FluentQuery.Core.Commands.Model
         }
 
         #endregion
-
-        #region Implementation of IFluentQueryUpdateModel
-        
-
-        #endregion
     }
 
     /// <summary>
