@@ -152,7 +152,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
                               typeof(string),
                               typeof(decimal),
                               typeof(DateTime),
-                              typeof(DateTimeOffset), typeof(TimeSpan), typeof(Guid), typeof(JObject)
+                              typeof(DateTimeOffset), typeof(TimeSpan), typeof(Guid), typeof(JObject), typeof(byte[]), typeof(byte)
                           }.Contains(type) || Convert.GetTypeCode(type) != TypeCode.Object
                    || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) && IsSimpleType(type.GetGenericArguments()[0]));
 
