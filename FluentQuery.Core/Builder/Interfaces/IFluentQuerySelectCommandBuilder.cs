@@ -88,13 +88,33 @@ namespace FluentQuery.Core.Builder.Interfaces
         /// <param name="column">
         /// The column.
         /// </param>
+        /// <param name="tableAlias">
+        /// The alias.
+        /// </param>
         /// <typeparam name="TTable">
         /// Table Type
         /// </typeparam>
         /// <returns>
         /// The <see cref="IFluentQuerySelectBuilder"/>.
         /// </returns>
-        IFluentQuerySelectBuilder Select<TTable>(Expression<Func<TTable, object>> column);
+        IFluentQuerySelectBuilder Select<TTable>(Expression<Func<TTable, object>> column, string tableAlias = null);
+
+        /// <summary>
+        /// The select.
+        /// </summary>
+        /// <param name="tableAlias">
+        /// The alias.
+        /// </param>
+        /// <param name="columns">
+        /// The columns.
+        /// </param>
+        /// <typeparam name="TTable">
+        /// Table Type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="IFluentQuerySelectBuilder"/>.
+        /// </returns>
+        IFluentQuerySelectBuilder Select<TTable>(string tableAlias = null, params Expression<Func<TTable, object>>[] columns);
 
         /// <summary>
         /// The select.

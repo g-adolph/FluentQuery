@@ -14,6 +14,7 @@ namespace FluentQuery.Core.Infrastructure.Expression
     using System.Linq.Expressions;
 
     using global::FluentQuery.Core.Commands.Interfaces;
+    using global::FluentQuery.Core.Commands.Model;
     using global::FluentQuery.Core.Infrastructure.Reflection;
 
     /// <summary>
@@ -27,6 +28,9 @@ namespace FluentQuery.Core.Infrastructure.Expression
         /// <param name="expression">
         /// The expression.
         /// </param>
+        /// <param name="tableAlias">
+        /// The alias.
+        /// </param>
         /// <typeparam name="TTable">
         /// The Table Type
         /// </typeparam>
@@ -37,7 +41,7 @@ namespace FluentQuery.Core.Infrastructure.Expression
         /// The <see cref="IFluentQuerySelectItem"/>.
         /// </returns>
         public static IFluentQuerySelectItem ResolveSelect<TTable, TColumn>(
-            Expression<Func<TTable, TColumn>> expression)
+            Expression<Func<TTable, TColumn>> expression, string tableAlias = null)
         {
             var tableTypeModel = ReflectionInstance.FromCache<TTable>();
 
@@ -64,7 +68,20 @@ namespace FluentQuery.Core.Infrastructure.Expression
                 me = me.Expression as MemberExpression;
             }
 
-            return tableTypeModel.Columns.FirstOrDefault(x => x.ColumnSelectItem.Id == columnName)?.ColumnSelectItem;
+            var item  = tableTypeModel.Columns.FirstOrDefault(x => x.ColumnSelectItem.Id == columnName)?.ColumnSelectItem;
+            if (!string.IsNullOrEmpty(tableAlias))
+            {
+                return new FluentQuerySelectItemModel(
+                    item.Id,
+                    item.Name,
+                    item.Alias,
+                    item.TableName,
+                    tableAlias,
+                    item.TableSchema,
+                    item.CustomProperties);
+            }
+
+            return item;
         }
 
 

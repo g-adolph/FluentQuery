@@ -71,9 +71,9 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <inheritdoc />
-        public IFluentQuerySelectBuilder Select<TTable>(Expression<Func<TTable, object>> column)
+        public IFluentQuerySelectBuilder Select<TTable>(Expression<Func<TTable, object>> column, string tableAlias = null)
         {
-            this.queryModel.Select.Add(ExpressionResult.ResolveSelect(column));
+            this.queryModel.Select.Add(ExpressionResult.ResolveSelect(column, tableAlias));
             return this;
         }
 
@@ -82,6 +82,17 @@ namespace FluentQuery.Core.Builder
         public IFluentQuerySelectBuilder Select(IFluentQueryFunctionItem function, Func<FluentQuerySelectItemModel> column)
         {
             throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public IFluentQuerySelectBuilder Select<TTable>(string tableAlias = null, params Expression<Func<TTable, object>>[] columns)
+        {
+            foreach (var column in columns)
+            {
+                this.queryModel.Select.Add(ExpressionResult.ResolveSelect(column, tableAlias));
+            }
+
+            return this;
         }
 
         /// <inheritdoc />
