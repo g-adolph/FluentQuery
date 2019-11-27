@@ -36,6 +36,8 @@ namespace FluentQuery.Core.Commands.Interfaces
         /// </summary>
         string Schema { get; set; }
 
+        bool IgnoreQuote { get; }
+
         /// <summary>
         /// Gets or sets the join.
         /// </summary>

@@ -45,11 +45,11 @@ namespace FluentQuery.Postgresql
                 return itemStatement;
             }
 
-            var tableAlias = string.IsNullOrEmpty(item.TableAlias) ? string.Empty : $"\"{item.TableAlias}\"";
+            var tableAlias = string.IsNullOrEmpty(item.TableAlias) ? string.Empty : !item.IgnoreQuote ? $"\"{item.TableAlias}\"" : $"{item.TableAlias}";
 
-            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : $"\"{item.Alias}\"";
+            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Alias}\"" : $"{item.Alias}";
 
-            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"\"{item.Name}\"";
+            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Name}\"" : $"{item.Name}";
 
             itemStatement = $"{tableAlias}{(!string.IsNullOrEmpty(tableAlias) ? "." : string.Empty)}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : string.Empty)}";
 
@@ -74,9 +74,9 @@ namespace FluentQuery.Postgresql
                 return itemStatement;
             }
 
-            var tableAlias = string.IsNullOrEmpty(item.TableAlias) ? string.Empty : $"\"{item.TableAlias}\"";
+            var tableAlias = string.IsNullOrEmpty(item.TableAlias) ? string.Empty : !item.IgnoreQuote ? $"\"{item.TableAlias}\"" : $"{item.TableAlias}";
 
-            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"\"{item.Name}\"";
+            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Name}\"" : $"{item.Name}";
 
             itemStatement = $"{tableAlias}{(!string.IsNullOrEmpty(tableAlias) ? "." : string.Empty)}{name}";
 
@@ -101,11 +101,11 @@ namespace FluentQuery.Postgresql
                 return itemStatement;
             }
 
-            var schema = string.IsNullOrEmpty(item.Schema) ? string.Empty : $"{item.Schema}";
+            var schema = string.IsNullOrEmpty(item.Schema) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Schema}\"" : $"{item.Schema}";
 
-            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : $"\"{item.Alias}\"";
+            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Alias}\"" : $"{item.Alias}";
 
-            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"{item.Name}";
+            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Name}\"" : $"{item.Name}";
 
             itemStatement = $"{schema}{(!string.IsNullOrEmpty(schema) ? "." : string.Empty)}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : string.Empty)}";
 
@@ -129,11 +129,11 @@ namespace FluentQuery.Postgresql
                 return itemStatement;
             }
 
-            var schema = string.IsNullOrEmpty(item.Schema) ? string.Empty : $"\"{item.Schema}\"";
+            var schema = string.IsNullOrEmpty(item.Schema) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Schema}\"" : $"{item.Schema}";
 
-            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : $"\"{item.Alias}\"";
+            var alias = string.IsNullOrEmpty(item.Alias) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Alias}\"" : $"{item.Alias}";
 
-            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : $"\"{item.Name}\"";
+            var name = string.IsNullOrEmpty(item.Name) ? string.Empty : !item.IgnoreQuote ? $"\"{item.Name}\"" : $"{item.Name}";
 
             itemStatement = $"{item.Join.JoinType} JOIN {schema}{(!string.IsNullOrEmpty(schema) ? "." : string.Empty)}{name}{(!string.IsNullOrEmpty(alias) ? $" AS {alias}" : string.Empty)}";
             itemStatement += $" ON {this.CreateAnd(item.Join.Where)} ";

@@ -49,7 +49,7 @@ namespace FluentQuery.Core.Builder.Interfaces
         /// <returns>
         /// The <see cref="TStatementBuilder"/>.
         /// </returns>
-        TStatementBuilder From(string tableName, string schema = null, string tableAlias = null);
+        TStatementBuilder From(string tableName, string schema = null, string tableAlias = null, bool ignoreQuote = false);
 
         /// <summary>
         /// The from.

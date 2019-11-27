@@ -118,9 +118,9 @@ namespace FluentQuery.Core.Builder
         }
 
         /// <inheritdoc />
-        public IFluentQuerySelectBuilder From(string tableName, string schema = null, string tableAlias = null)
+        public IFluentQuerySelectBuilder From(string tableName, string schema = null, string tableAlias = null, bool ignoreQuote = false)
         {
-            this.queryModel.From.Add(FluentQueryFromItemModel.CreateFromItem(tableName, tableAlias, schema));
+            this.queryModel.From.Add(FluentQueryFromItemModel.CreateFromItem(tableName, tableAlias, schema, ignoreQuote));
             return this;
         }
 
@@ -156,7 +156,7 @@ namespace FluentQuery.Core.Builder
         /// <inheritdoc />
         public IFluentQueryWhereItemBuilder<IFluentQuerySelectBuilder> Join(FluentQuerySelectItemModel column, string joinType)
         {
-            this.From(column.TableName, column.TableSchema, column.TableAlias);
+            this.From(column.TableName, column.TableSchema, column.TableAlias, column.IgnoreQuote);
             var lastFromTable = this.queryModel.From.Last();
 
             lastFromTable.Join = new FluentQueryJoinItemModel

@@ -53,7 +53,7 @@ namespace FluentQuery.Core.Commands.Model
         /// <param name="customProperties">
         /// The custom Properties.
         /// </param>
-        public FluentQuerySelectItemModel(string id, string name, string alias, string tableName, string tableAlias, string tableSchema, Dictionary<string,object> customProperties)
+        public FluentQuerySelectItemModel(string id, string name, string alias, string tableName, string tableAlias, string tableSchema, Dictionary<string,object> customProperties, bool ignoreQuote = false)
         {
             this.Id = id;
             this.Name = name;
@@ -62,6 +62,7 @@ namespace FluentQuery.Core.Commands.Model
             this.TableAlias = tableAlias;
             this.TableSchema = tableSchema;
             this.CustomProperties = customProperties;
+            this.IgnoreQuote = false;
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace FluentQuery.Core.Commands.Model
         /// <returns>
         /// The <see cref="FluentQuerySelectItemModel"/>.
         /// </returns>
-        public static FluentQuerySelectItemModel Create<TEntity>(Expression<Func<TEntity, object>> column, string name = null, string alias = null, string tableName = null, string tableAlias = null, string tableSchema = null )
+        public static FluentQuerySelectItemModel Create<TEntity>(Expression<Func<TEntity, object>> column, string name = null, string alias = null, string tableName = null, string tableAlias = null, string tableSchema = null, bool ignoreQuote = false)
         {
             var columnProperties = ExpressionResult.ResolveSelect(column);
 
@@ -104,6 +105,7 @@ namespace FluentQuery.Core.Commands.Model
                 TableName = tableName ?? columnProperties.TableName,
                 TableAlias = tableAlias ?? columnProperties.TableAlias,
                 TableSchema = tableSchema ?? columnProperties.TableSchema,
+                IgnoreQuote = ignoreQuote
             };
         }
 
@@ -126,7 +128,7 @@ namespace FluentQuery.Core.Commands.Model
         /// <param name="tableSchema">
         /// The table Schema.
         /// </param>
-        public FluentQuerySelectItemModel(string name, string alias, string tableName, string tableAlias, string tableSchema = null)
+        public FluentQuerySelectItemModel(string name, string alias, string tableName, string tableAlias, string tableSchema = null, bool ignoreQuote  = false)
         {
             this.Id = name;
             this.Name = name;
@@ -134,6 +136,7 @@ namespace FluentQuery.Core.Commands.Model
             this.TableName = tableName;
             this.TableAlias = tableAlias;
             this.TableSchema = tableSchema;
+            this.IgnoreQuote = ignoreQuote;
         }
 
         /// <summary>
@@ -168,6 +171,8 @@ namespace FluentQuery.Core.Commands.Model
 
         /// <inheritdoc />
         public string TableSchema { get; private set; }
+
+        public bool IgnoreQuote { get; private set; }
 
 
         public Dictionary<string, object> CustomProperties { get; private set; }

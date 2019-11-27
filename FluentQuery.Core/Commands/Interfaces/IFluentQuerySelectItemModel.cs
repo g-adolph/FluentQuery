@@ -46,6 +46,9 @@ namespace FluentQuery.Core.Commands.Interfaces
         /// </summary>
         string TableSchema { get; }
 
+
+        bool IgnoreQuote { get; }
+
         /// <summary>
         /// Gets the custom properties.
         /// </summary>

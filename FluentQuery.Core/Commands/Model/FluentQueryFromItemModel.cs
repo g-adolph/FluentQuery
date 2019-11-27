@@ -47,11 +47,12 @@ namespace FluentQuery.Core.Commands.Model
         /// <param name="schema">
         /// The schema.
         /// </param>
-        private FluentQueryFromItemModel(string name, string alias = null, string schema = null)
+        private FluentQueryFromItemModel(string name, string alias = null, string schema = null, bool ignoreQuote = false)
         {
             this.Name = name;
             this.Alias = alias;
             this.Schema = schema;
+            this.IgnoreQuote = ignoreQuote; 
         }
 
         /// <inheritdoc />
@@ -77,6 +78,8 @@ namespace FluentQuery.Core.Commands.Model
         /// Gets or sets the schema.
         /// </summary>
         public string Schema { get; set; }
+
+        public bool IgnoreQuote { get; private set; }
 
         /// <summary>
         /// Gets or sets the join.
@@ -112,9 +115,9 @@ namespace FluentQuery.Core.Commands.Model
         /// <returns>
         /// The <see cref="FluentQueryFromItemModel"/>.
         /// </returns>
-        public static FluentQueryFromItemModel CreateFromItem(string name, string alias, string schema)
+        public static FluentQueryFromItemModel CreateFromItem(string name, string alias, string schema, bool ignoreQuote = false)
         {
-            return new FluentQueryFromItemModel(name, alias, schema);
+            return new FluentQueryFromItemModel(name, alias, schema,ignoreQuote);
         }
 
         /// <inheritdoc />
