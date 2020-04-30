@@ -109,6 +109,46 @@ namespace FluentQuery.Core.Commands.Model
             };
         }
 
+        /// <summary>
+        /// The create.
+        /// </summary>
+        /// <param name="column">
+        /// The column.
+        /// </param>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="alias">
+        /// The alias.
+        /// </param>
+        /// <param name="tableName">
+        /// The table name.
+        /// </param>
+        /// <param name="tableAlias">
+        /// The table alias.
+        /// </param>
+        /// <param name="tableSchema">
+        /// The table schema.
+        /// </param>
+        /// <typeparam name="TEntity">
+        /// Entity Type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="FluentQuerySelectItemModel"/>.
+        /// </returns>
+        public static FluentQuerySelectItemModel Create(string name = null, string alias = null, string tableName = null, string tableAlias = null, string tableSchema = null, bool ignoreQuote = false)
+        {
+            return new FluentQuerySelectItemModel()
+            {
+                Name = name,
+                Alias = alias,
+                TableName = tableName, 
+                TableAlias = tableAlias, 
+                TableSchema = tableSchema,
+                IgnoreQuote = ignoreQuote
+            };
+        }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FluentQuerySelectItemModel"/> class.

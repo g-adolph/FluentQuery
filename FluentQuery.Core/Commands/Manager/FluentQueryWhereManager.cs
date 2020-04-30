@@ -129,7 +129,7 @@ namespace FluentQuery.Core.Commands.Manager
         ///     The commands creator.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.Text.StringBuilder" />.
+        /// The String Builder />.
         /// </returns>
         public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {

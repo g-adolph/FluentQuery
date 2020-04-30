@@ -39,7 +39,7 @@ namespace FluentQuery.Core.Infrastructure
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:FluentQuery.Core.Infrastructure.FluentQueryException" /> class.
+        /// Initializes a new instance of the FluentQueryException class.
         /// </summary>
         public FluentQueryException()
         {
@@ -47,12 +47,16 @@ namespace FluentQuery.Core.Infrastructure
 
         /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:FluentQuery.Core.Infrastructure.FluentQueryException" /> class.
+        /// Initializes a new instance of the FluentQueryException class.
         /// </summary>
         /// <param name="message">
         /// The message.
         /// </param>
         public FluentQueryException(string message) : base(message)
+        {
+        }
+
+        public FluentQueryException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

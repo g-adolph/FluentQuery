@@ -99,7 +99,7 @@ namespace FluentQuery.Core.Commands.Manager
         ///     The commands creator.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.Text.StringBuilder" />.
+        /// The StringBuilder .
         /// </returns>
         public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {
@@ -124,7 +124,7 @@ namespace FluentQuery.Core.Commands.Manager
                 }
 
                 var itemStatement = commandsCreator.BuildColumnItemInSelect(item);
-                if (itemStatement != string.Empty)
+                if (!string.IsNullOrEmpty(itemStatement))
                 {
                     selectBuilder.Append(itemStatement + ",");
                 }

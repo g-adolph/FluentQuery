@@ -121,7 +121,7 @@ namespace FluentQuery.Core.Commands.Model
         /// The child.
         /// </param>
         /// <returns>
-        /// The <see cref="T:FluentQuery.Core.Commands.Interfaces.IFluentQueryWhereItem" />.
+        /// The IFluentQueryWhereItem.
         /// </returns>
         public IFluentQueryWhereItemModel AddChildren(IFluentQueryWhereItemModel child)
         {

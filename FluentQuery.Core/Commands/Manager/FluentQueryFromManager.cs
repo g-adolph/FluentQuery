@@ -112,7 +112,7 @@ namespace FluentQuery.Core.Commands.Manager
                     fromBuilder.Length--;
                 }
 
-                if (itemStatement != string.Empty)
+                if (!string.IsNullOrEmpty(itemStatement))
                 {
                     fromBuilder.Append(" " + itemStatement + ",");
                 }
