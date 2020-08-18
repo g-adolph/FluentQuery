@@ -453,7 +453,7 @@ namespace FluentQuery.Postgresql
                 return builder.ToString();
             }
 
-            builder.Append($"{this.BuildColumnItem(whereItem.Column)} IN ( ");
+            builder.Append($"{this.BuildColumnItem(whereItem.Column)} = ANY ( ");
             foreach (var parameter in whereItem.ParameterList)
             {
                 builder.Append(CreateParameter(parameter) + ",");

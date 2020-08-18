@@ -90,19 +90,20 @@ namespace FluentQuery.Core.Builder
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// The in.
+        /// In Clause
         /// </summary>
-        /// <returns>
-        /// The <see cref="T:IFluentQueryWhereItemBuilder`TStatementBuilder" />.
-        /// </returns>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
+        /// <param name="inCondition"></param>
+        /// <returns></returns>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1627:DocumentationTextMustNotBeEmpty", Justification = "Reviewed. Suppression is OK here.")]
-        public IFluentQueryWhereItemBuilder<TStatementBuilder> In()
+        public TStatementBuilder In<TType>(IList<TType> inCondition)
         {
-            throw new NotImplementedException();
+            var item = new FluentQueryWhereItemModel(EnumFluentQueryWhereOperators.In);
+            item.ParameterList.Add(this.parentQueryBuilder.GetQueryModel().Parameters.Add(inCondition).Key);
+
+            item.Column = this.whereItem.Column;
+            this.whereItem.AddChildren(item);
+            return this.parentQueryBuilder;
         }
 
         /// <inheritdoc />

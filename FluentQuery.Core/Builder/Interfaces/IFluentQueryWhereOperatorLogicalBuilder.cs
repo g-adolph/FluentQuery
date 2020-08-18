@@ -1,4 +1,6 @@
-﻿namespace FluentQuery.Core.Builder.Interfaces
+﻿using System.Collections.Generic;
+
+namespace FluentQuery.Core.Builder.Interfaces
 {
     /// <summary>
     /// The FluentQueryWhereOperatorLogicalBuilder interface.
@@ -30,7 +32,7 @@
         /// <returns>
         /// The <see cref="IFluentQueryWhereItemBuilder"/>.
         /// </returns>
-        IFluentQueryWhereItemBuilder<TStatementBuilder> In();
+        TStatementBuilder In<TType>(IList<TType> inCondition);
 
         /// <summary>
         /// The exists.
