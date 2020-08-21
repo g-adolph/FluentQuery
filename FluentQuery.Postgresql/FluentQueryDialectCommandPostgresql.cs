@@ -35,7 +35,6 @@ namespace FluentQuery.Postgresql
         /// The item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string BuildColumnItemInSelect(IFluentQuerySelectItem item)
         {
@@ -64,7 +63,6 @@ namespace FluentQuery.Postgresql
         /// The item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string BuildColumnItem(IFluentQuerySelectItem item)
         {
@@ -91,7 +89,6 @@ namespace FluentQuery.Postgresql
         /// The item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string BuildFromItem(IFluentQueryFromItemModel item)
         {
@@ -151,7 +148,6 @@ namespace FluentQuery.Postgresql
         /// The item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string BuildColumnItemInUpdate(IFluentQueryUpdateItemModel item)
         {
@@ -216,7 +212,6 @@ namespace FluentQuery.Postgresql
         /// The where item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string CreateEqualTo(IFluentQueryWhereItemModel whereItem)
         {
@@ -248,7 +243,6 @@ namespace FluentQuery.Postgresql
         /// The where item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string CreateNotEqualTo(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
@@ -268,7 +262,6 @@ namespace FluentQuery.Postgresql
         /// The where item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string CreateGreaterThan(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
@@ -288,7 +281,6 @@ namespace FluentQuery.Postgresql
         /// The where item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string CreateGreaterOrEqual(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
@@ -308,7 +300,6 @@ namespace FluentQuery.Postgresql
         /// The where item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string CreateLessThan(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
@@ -328,7 +319,6 @@ namespace FluentQuery.Postgresql
         /// The where item.
         /// </param>
         /// <returns>
-        /// The <see cref="T:System.String" />.
         /// </returns>
         public string CreateLessOrEqual(IFluentQueryWhereItemModel whereItem) =>
             whereItem == null && whereItem.ParameterList.Count == 0
@@ -460,7 +450,7 @@ namespace FluentQuery.Postgresql
             }
 
             builder.Length--;
-            builder.Append(")");
+            builder.Append(')');
             return builder.ToString();
         }
 

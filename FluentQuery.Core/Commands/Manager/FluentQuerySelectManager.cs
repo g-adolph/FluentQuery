@@ -109,7 +109,7 @@ namespace FluentQuery.Core.Commands.Manager
             {
                 if (this.enableAllFields)
                 {
-                    selectBuilder.Append("*");
+                    selectBuilder.Append('*');
                 }
 
                 return selectBuilder;

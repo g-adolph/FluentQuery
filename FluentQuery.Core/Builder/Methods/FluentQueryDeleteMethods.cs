@@ -12,10 +12,12 @@ namespace FluentQuery.Core
 {
     using global::FluentQuery.Core.Builder;
     using global::FluentQuery.Core.Builder.Interfaces;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// The fluent query delete methods.
     /// </summary>
+    [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
     public static partial class FluentQuery
     {
         /// <summary>

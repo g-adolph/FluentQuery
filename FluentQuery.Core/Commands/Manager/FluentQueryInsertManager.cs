@@ -31,7 +31,7 @@ namespace FluentQuery.Core.Commands.Manager
         /// <summary>
         /// Gets or sets a value indicating whether with primary key.
         /// </summary>
-        public bool ReturnId { get; set; } = false;
+        public bool ReturnId { get; set; }
 
         /// <summary>
         /// The add.
@@ -66,7 +66,6 @@ namespace FluentQuery.Core.Commands.Manager
         ///     The commands creator.
         /// </param>
         /// <returns>
-        /// The<see cref="T:System.Text.StringBuilder" />.
         /// </returns>
         public StringBuilder Build(IFluentQueryDialectCommand commandsCreator)
         {
