@@ -1,16 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.4" />
-    <PackageReference Include="Dapper.AmbientContext" Version="1.4.0" />
+    <PackageReference Include="Dapper" Version="2.0.78"/>
+    <PackageReference Include="Dapper.AmbientContext" Version="1.8.1"/>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj" />
+    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj"/>
   </ItemGroup>
-
 </Project>

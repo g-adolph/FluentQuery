@@ -1,23 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="3.2.7" />
+    <PackageReference Include="Npgsql" Version="5.0.4"/>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj" />
+    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj"/>
   </ItemGroup>
-
 </Project>

@@ -1,32 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <IsPackable>false</IsPackable>
-</PropertyGroup>
-
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.1.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
-    <PackageReference Include="Moq" Version="4.8.2" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="FluentAssertions" Version="5.10.3"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4"/>
+    <PackageReference Include="Moq" Version="4.16.1"/>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0"/>
+    <PackageReference Include="xunit" Version="2.4.1"/>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3"/>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj" />
-    <ProjectReference Include="..\FluentQuery.SqlServer\FluentQuery.SqlServer.csproj" />
+    <ProjectReference Include="..\FluentQuery.Core\FluentQuery.Core.csproj"/>
+    <ProjectReference Include="..\FluentQuery.SqlServer\FluentQuery.SqlServer.csproj"/>
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Core\Statements\Delete\" />
-    <Folder Include="Core\Statements\Update\" />
+    <Folder Include="Core\Statements\Delete\"/>
+    <Folder Include="Core\Statements\Update\"/>
   </ItemGroup>
-
 </Project>
