@@ -9,8 +9,8 @@
 
 namespace FluentQuery.Core.Builder
 {
-    using global::FluentQuery.Core.Builder.Interfaces;
-    using global::FluentQuery.Core.Commands.Model;
+    using Interfaces;
+    using Commands.Model;
 
     /// <inheritdoc />
     /// <summary>

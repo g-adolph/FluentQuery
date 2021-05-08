@@ -9,7 +9,7 @@
 
 namespace FluentQuery.Core.Commands.Manager
 {
-    using global::FluentQuery.Core.Dialects.Base;
+    using Dialects.Base;
 
     /// <summary>
     /// The paginate manager.

@@ -11,7 +11,7 @@ namespace FluentQuery.Core.Dialects.Ansi
 {
     using System;
 
-    using global::FluentQuery.Core.Dialects.Base;
+    using Base;
 
     /// <summary>
     /// The fluent query dialect executor ansi.

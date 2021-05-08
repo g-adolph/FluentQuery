@@ -9,9 +9,9 @@
 
 namespace FluentQuery.Core.Commands.Model
 {
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Manager;
-    using global::FluentQuery.Core.Configurations;
+    using Interfaces;
+    using Manager;
+    using Configurations;
 
     /// <summary>
     /// The fluent query select model.

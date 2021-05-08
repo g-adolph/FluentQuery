@@ -12,9 +12,9 @@ namespace FluentQuery.Core.Commands.Manager
     using System.Collections.Generic;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Interfaces;
+    using Dialects.Base;
+    using Infrastructure.Enums;
 
     /// <summary>
     /// The order manager.

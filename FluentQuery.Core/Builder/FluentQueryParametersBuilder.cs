@@ -11,7 +11,7 @@ namespace FluentQuery.Core.Builder
 {
     using System.Collections.Concurrent;
 
-    using global::FluentQuery.Core.Builder.Interfaces;
+    using Interfaces;
     using global::FluentQuery.Core.Commands.Interfaces;
 
     public class FluentQueryParametersBuilder : IFluentQueryParametersBuilder

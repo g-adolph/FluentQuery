@@ -9,7 +9,7 @@
 
 namespace FluentQuery.Postgresql
 {
-    using global::FluentQuery.Core.Dialects.Base;
+    using Core.Dialects.Base;
 
     /// <summary>
     /// The fluent query dialect postgresql.

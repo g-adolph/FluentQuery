@@ -16,9 +16,9 @@ namespace FluentQuery.Core.Infrastructure.Extensions
     using System;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Commands.Interfaces;
+    using Dialects.Base;
+    using Enums;
 
     /// <summary>
     /// The fluent query dialect command extensions.

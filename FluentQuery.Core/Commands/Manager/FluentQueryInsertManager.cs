@@ -12,9 +12,9 @@ namespace FluentQuery.Core.Commands.Manager
     using System.Linq;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.Model;
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure;
+    using Model;
+    using Dialects.Base;
+    using Infrastructure;
 
     /// <inheritdoc />
     /// <summary>

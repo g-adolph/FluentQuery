@@ -11,11 +11,11 @@ namespace FluentQuery.Core.Configurations
 {
     using System.Diagnostics.CodeAnalysis;
 
-    using global::FluentQuery.Core.Conventions;
+    using Conventions;
 
-    using global::FluentQuery.Core.Dialects.Ansi;
+    using Dialects.Ansi;
 
-    using global::FluentQuery.Core.Dialects.Base;
+    using Dialects.Base;
 
     /// <summary>
     /// The fluent query configuration.

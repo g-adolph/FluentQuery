@@ -9,8 +9,8 @@
 
 namespace FluentQuery.Core.Functions
 {
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Commands.Interfaces;
+    using Infrastructure.Enums;
 
     /// <summary>
     /// The FluentQueryFunctionItem interface.

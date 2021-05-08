@@ -13,7 +13,7 @@ namespace FluentQuery.Core.Builder.Interfaces
     using System.Linq.Expressions;
 
     using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Functions;
+    using Functions;
 
     /// <summary>
     /// The FluentQueryUpdateCommandBuilder interface.

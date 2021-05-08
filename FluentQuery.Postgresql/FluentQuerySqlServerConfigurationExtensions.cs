@@ -9,7 +9,7 @@
 
 namespace FluentQuery.Postgresql
 {
-    using global::FluentQuery.Core.Configurations;
+    using Core.Configurations;
 
     /// <summary>
     /// The fluent query postgresql configuration extensions.

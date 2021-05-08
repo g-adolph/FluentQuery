@@ -12,8 +12,8 @@ namespace FluentQuery.Core.Functions
     using System;
     using System.Linq.Expressions;
 
-    using global::FluentQuery.Core.Infrastructure.Enums;
-    using global::FluentQuery.Core.Infrastructure.Expression;
+    using Infrastructure.Enums;
+    using Infrastructure.Expression;
 
     /// <summary>
     /// The fluent query functions.

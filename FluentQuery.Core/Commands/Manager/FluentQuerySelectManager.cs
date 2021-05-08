@@ -13,10 +13,10 @@ namespace FluentQuery.Core.Commands.Manager
     using System.Linq;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure;
-    using global::FluentQuery.Core.Infrastructure.Reflection;
+    using Interfaces;
+    using Dialects.Base;
+    using Infrastructure;
+    using Infrastructure.Reflection;
 
     /// <inheritdoc />
     /// <summary>

@@ -9,8 +9,8 @@
 
 namespace FluentQuery.Core.Commands.Interfaces
 {
-    using global::FluentQuery.Core.Commands.Manager;
-    using global::FluentQuery.Core.Commands.Model;
+    using Manager;
+    using Model;
 
     /// <inheritdoc />
     /// <summary>

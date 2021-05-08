@@ -13,9 +13,9 @@ namespace FluentQuery.Core.Infrastructure.Expression
     using System.Linq;
     using System.Linq.Expressions;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Model;
-    using global::FluentQuery.Core.Infrastructure.Reflection;
+    using Commands.Interfaces;
+    using Commands.Model;
+    using Reflection;
 
     /// <summary>
     /// The expression result.

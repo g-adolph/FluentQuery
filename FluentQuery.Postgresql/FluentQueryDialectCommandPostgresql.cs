@@ -12,12 +12,12 @@ namespace FluentQuery.Postgresql
     using System.Collections.Generic;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Model;
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure.Constants;
-    using global::FluentQuery.Core.Infrastructure.Enums;
-    using global::FluentQuery.Core.Infrastructure.Extensions;
+    using Core.Commands.Interfaces;
+    using Core.Commands.Model;
+    using Core.Dialects.Base;
+    using Core.Infrastructure.Constants;
+    using Core.Infrastructure.Enums;
+    using Core.Infrastructure.Extensions;
 
     /// <inheritdoc />
     /// <summary>

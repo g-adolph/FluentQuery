@@ -9,7 +9,7 @@
 
 namespace FluentQuery.Core.Commands.Model
 {
-    using global::FluentQuery.Core.Commands.Interfaces;
+    using Interfaces;
 
     /// <inheritdoc />
     /// <summary>

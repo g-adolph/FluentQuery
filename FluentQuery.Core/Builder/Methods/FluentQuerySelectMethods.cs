@@ -13,11 +13,11 @@ namespace FluentQuery.Core
     using System;
     using System.Linq.Expressions;
 
-    using global::FluentQuery.Core.Builder;
-    using global::FluentQuery.Core.Builder.Interfaces;
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Model;
-    using global::FluentQuery.Core.Functions;
+    using Builder;
+    using Builder.Interfaces;
+    using Commands.Interfaces;
+    using Commands.Model;
+    using Functions;
 
     /// <summary>
     /// The fluent query.

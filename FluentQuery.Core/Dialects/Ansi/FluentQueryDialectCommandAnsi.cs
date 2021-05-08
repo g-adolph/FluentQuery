@@ -12,10 +12,10 @@ namespace FluentQuery.Core.Dialects.Ansi
     using System;
     using System.Collections.Generic;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Model;
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Commands.Interfaces;
+    using Commands.Model;
+    using Base;
+    using Infrastructure.Enums;
 
     /// <inheritdoc />
     /// <summary>

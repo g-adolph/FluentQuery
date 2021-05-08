@@ -13,14 +13,14 @@ namespace FluentQuery.Core.Builder
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
 
-    using global::FluentQuery.Core.Builder.Interfaces;
+    using Interfaces;
     using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Manager;
-    using global::FluentQuery.Core.Commands.Model;
-    using global::FluentQuery.Core.Functions;
-    using global::FluentQuery.Core.Infrastructure.Enums;
-    using global::FluentQuery.Core.Infrastructure.Expression;
-    using global::FluentQuery.Core.Infrastructure.Reflection;
+    using Commands.Manager;
+    using Commands.Model;
+    using Functions;
+    using Infrastructure.Enums;
+    using Infrastructure.Expression;
+    using Infrastructure.Reflection;
 
     /// <inheritdoc />
     /// <summary>

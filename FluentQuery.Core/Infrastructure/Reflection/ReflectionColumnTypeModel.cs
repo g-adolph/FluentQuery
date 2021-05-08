@@ -18,8 +18,8 @@ namespace FluentQuery.Core.Infrastructure.Reflection
     using System.Linq;
     using System.Reflection;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Model;
+    using Commands.Interfaces;
+    using Commands.Model;
 
     /// <summary>
     /// The reflection column type model.

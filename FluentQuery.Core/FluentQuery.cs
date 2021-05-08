@@ -10,7 +10,7 @@
 // ReSharper disable once CheckNamespace
 namespace FluentQuery.Core
 {
-    using global::FluentQuery.Core.Configurations;
+    using Configurations;
 
     /// <summary>
     /// The fluent query.

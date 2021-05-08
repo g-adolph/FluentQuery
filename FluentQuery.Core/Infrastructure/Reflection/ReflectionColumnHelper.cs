@@ -9,7 +9,7 @@
 
 namespace FluentQuery.Core.Infrastructure.Reflection
 {
-    using global::FluentQuery.Core.Commands.Interfaces;
+    using Commands.Interfaces;
 
     /// <summary>
     /// The reflection column type model helper.

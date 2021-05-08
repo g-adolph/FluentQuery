@@ -16,7 +16,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
     using System.Linq;
     using System.Reflection;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
+    using Commands.Interfaces;
 
     using Newtonsoft.Json.Linq;
 

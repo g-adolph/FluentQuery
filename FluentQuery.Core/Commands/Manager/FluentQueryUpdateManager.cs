@@ -13,9 +13,9 @@ namespace FluentQuery.Core.Commands.Manager
     using System.Linq;
     using System.Text;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure;
+    using Interfaces;
+    using Dialects.Base;
+    using Infrastructure;
 
     /// <inheritdoc />
     /// <summary>

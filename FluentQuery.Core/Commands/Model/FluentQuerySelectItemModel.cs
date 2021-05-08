@@ -13,8 +13,8 @@ namespace FluentQuery.Core.Commands.Model
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Infrastructure.Expression;
+    using Interfaces;
+    using Infrastructure.Expression;
 
     /// <inheritdoc />
     /// <summary>

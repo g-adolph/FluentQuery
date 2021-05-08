@@ -10,8 +10,8 @@ namespace FluentQuery.Core.Commands.Model
 {
     using System.Collections.Generic;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Interfaces;
+    using Infrastructure.Enums;
 
     /// <inheritdoc />
     /// <summary>

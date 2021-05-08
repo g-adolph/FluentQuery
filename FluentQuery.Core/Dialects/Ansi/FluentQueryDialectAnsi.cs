@@ -9,7 +9,7 @@
 
 namespace FluentQuery.Core.Dialects.Ansi
 {
-    using global::FluentQuery.Core.Dialects.Base;
+    using Base;
 
     /// <inheritdoc />
     /// <summary>

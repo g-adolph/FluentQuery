@@ -11,7 +11,7 @@ namespace FluentQuery.Core.Commands.Interfaces
 {
     using System.Collections.Generic;
 
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Infrastructure.Enums;
 
     /// <summary>
     /// The FluentQueryWhereItem interface.

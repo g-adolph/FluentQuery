@@ -11,7 +11,7 @@ namespace FluentQuery.Core.Commands
 {
     using System.Collections.Generic;
 
-    using global::FluentQuery.Core.Infrastructure.Reflection;
+    using Infrastructure.Reflection;
 
     /// <summary>
     /// The fluent query insert table item.

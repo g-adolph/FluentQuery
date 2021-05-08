@@ -11,7 +11,7 @@ namespace FluentQuery.Core.Infrastructure.Reflection
 {
     using System.Linq;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
+    using Commands.Interfaces;
 
     /// <summary>
     /// The reflection helper.

@@ -3,7 +3,7 @@
     using System;
     using System.Linq.Expressions;
 
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Infrastructure.Enums;
 
     /// <summary>
     /// The FluentQueryWhereOperatorComparisonBuilder interface.

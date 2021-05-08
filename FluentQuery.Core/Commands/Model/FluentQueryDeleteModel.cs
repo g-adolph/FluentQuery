@@ -12,11 +12,11 @@ namespace FluentQuery.Core.Commands.Model
     using System.Collections.Generic;
     using System.Linq;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Manager;
-    using global::FluentQuery.Core.Configurations;
-    using global::FluentQuery.Core.Infrastructure.Enums;
-    using global::FluentQuery.Core.Infrastructure.Reflection;
+    using Interfaces;
+    using Manager;
+    using Configurations;
+    using Infrastructure.Enums;
+    using Infrastructure.Reflection;
 
     /// <inheritdoc />
     /// <summary>

@@ -13,8 +13,8 @@ namespace FluentQuery.Core.Commands.Manager
     using System.Collections.Concurrent;
     using System.Text;
 
-    using global::FluentQuery.Core.Dialects.Base;
-    using global::FluentQuery.Core.Infrastructure;
+    using Dialects.Base;
+    using Infrastructure;
 
     /// <inheritdoc />
     /// <summary>

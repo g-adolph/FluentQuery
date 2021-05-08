@@ -9,7 +9,7 @@
 
 namespace FluentQuery.Core.Commands.Interfaces
 {
-    using global::FluentQuery.Core.Commands.Manager;
+    using Manager;
 
     /// <summary>
     /// The FluentQueryInsertModel interface.

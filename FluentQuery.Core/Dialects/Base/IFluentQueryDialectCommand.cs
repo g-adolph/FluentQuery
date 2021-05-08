@@ -11,9 +11,9 @@ namespace FluentQuery.Core.Dialects.Base
 {
     using System.Collections.Generic;
 
-    using global::FluentQuery.Core.Commands.Interfaces;
-    using global::FluentQuery.Core.Commands.Model;
-    using global::FluentQuery.Core.Infrastructure.Enums;
+    using Commands.Interfaces;
+    using Commands.Model;
+    using Infrastructure.Enums;
 
     /// <summary>
     /// The FluentQueryDialectCommand interface.

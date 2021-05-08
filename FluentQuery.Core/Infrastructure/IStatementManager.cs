@@ -11,7 +11,7 @@ namespace FluentQuery.Core.Infrastructure
 {
     using System.Text;
 
-    using global::FluentQuery.Core.Dialects.Base;
+    using Dialects.Base;
 
     /// <summary>
     /// The StatementManager interface.

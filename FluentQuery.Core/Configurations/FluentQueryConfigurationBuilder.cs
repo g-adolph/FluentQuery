@@ -9,9 +9,9 @@
 
 namespace FluentQuery.Core.Configurations
 {
-    using global::FluentQuery.Core.Conventions;
+    using Conventions;
 
-    using global::FluentQuery.Core.Dialects.Base;
+    using Dialects.Base;
 
     /// <inheritdoc />
     /// <summary>
